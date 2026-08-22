@@ -19,6 +19,24 @@ window.PORTFOLIO = {
       ]
     },
     {
+      "img": "assets/detail/detail-03.jpg",
+      "title": "3-乌鸡猫粮",
+      "desc": "",
+      "slices": [
+        "assets/detail/detail-03/detail-03-slice-01.jpg",
+        "assets/detail/detail-03/detail-03-slice-02.jpg",
+        "assets/detail/detail-03/detail-03-slice-03.jpg",
+        "assets/detail/detail-03/detail-03-slice-04.jpg",
+        "assets/detail/detail-03/detail-03-slice-05.jpg",
+        "assets/detail/detail-03/detail-03-slice-06.jpg",
+        "assets/detail/detail-03/detail-03-slice-07.jpg",
+        "assets/detail/detail-03/detail-03-slice-08.jpg",
+        "assets/detail/detail-03/detail-03-slice-09.jpg",
+        "assets/detail/detail-03/detail-03-slice-10.jpg",
+        "assets/detail/detail-03/detail-03-slice-11.jpg"
+      ]
+    },
+    {
       "img": "assets/detail/detail-02.jpg",
       "title": "2-猫草猫条pro",
       "desc": "",
@@ -36,24 +54,6 @@ window.PORTFOLIO = {
         "assets/detail/detail-02/detail-02-slice-11.jpg",
         "assets/detail/detail-02/detail-02-slice-12.jpg",
         "assets/detail/detail-02/detail-02-slice-13.jpg"
-      ]
-    },
-    {
-      "img": "assets/detail/detail-03.jpg",
-      "title": "3-乌鸡猫粮",
-      "desc": "",
-      "slices": [
-        "assets/detail/detail-03/detail-03-slice-01.jpg",
-        "assets/detail/detail-03/detail-03-slice-02.jpg",
-        "assets/detail/detail-03/detail-03-slice-03.jpg",
-        "assets/detail/detail-03/detail-03-slice-04.jpg",
-        "assets/detail/detail-03/detail-03-slice-05.jpg",
-        "assets/detail/detail-03/detail-03-slice-06.jpg",
-        "assets/detail/detail-03/detail-03-slice-07.jpg",
-        "assets/detail/detail-03/detail-03-slice-08.jpg",
-        "assets/detail/detail-03/detail-03-slice-09.jpg",
-        "assets/detail/detail-03/detail-03-slice-10.jpg",
-        "assets/detail/detail-03/detail-03-slice-11.jpg"
       ]
     },
     {

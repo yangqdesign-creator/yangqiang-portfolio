@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>作品管理后台 · 电商设计作品集</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .admin-wrap{ max-width:1040px; margin:0 auto; padding:32px 20px 80px; }
+    .admin-h{ font-size:26px; font-weight:800; margin-bottom:6px; }
+    .admin-sub{ color:var(--muted); margin-bottom:26px; }
+    .panel{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:22px; margin-bottom:28px; }
+    .panel h3{ font-size:17px; margin-bottom:16px; }
+    .form-row{ display:flex; flex-wrap:wrap; gap:14px; margin-bottom:14px; }
+    .form-row > label{ display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted); flex:1; min-width:180px; }
+    .form-row select, .form-row input[type=text]{
+      padding:10px 12px; border:1px solid var(--line); border-radius:8px; font:inherit; color:var(--ink); background:#fff;
+    }
+    .file-drop{
+      border:2px dashed var(--line); border-radius:10px; padding:26px; text-align:center; color:var(--muted);
+      cursor:pointer; transition:border-color .2s, background .2s;
+    }
+    .file-drop:hover{ border-color:var(--accent); background:var(--bg-soft); }
+    .file-drop.drag{ border-color:var(--accent); background:rgba(176,137,78,.08); }
+    .file-name{ margin-top:10px; font-size:13px; color:var(--ink); word-break:break-all; }
+    .btn-primary{
+      margin-top:14px; background:var(--accent); color:#fff; border:none; padding:12px 22px;
+      border-radius:8px; font:inherit; font-weight:600; cursor:pointer;
+    }
+    .btn-primary:disabled{ opacity:.5; cursor:not-allowed; }
+    .msg{ margin-top:14px; font-size:14px; }
+    .msg.ok{ color:#2e7d32; }
+    .msg.err{ color:#c0392b; }
+    .admin-section{ margin-bottom:30px; }
+    .admin-section h4{ font-size:16px; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+    .admin-section h4 .count{ font-size:12px; color:var(--muted); font-weight:400; }
+    .work-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; }
+    .work-card{ border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; position:relative; }
+    .work-card .wm{ aspect-ratio:4/3; background:var(--bg-soft); }
+    .work-card .wm img{ width:100%; height:100%; object-fit:cover; }
+    .work-card .wm .ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px; }
+    .work-card .wt{ padding:8px 10px; font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .work-card .wt.admin-editable-title{
+      cursor:text; border-radius:4px; padding:8px 10px; margin:-2px -2px -2px 6px;
+      transition:background .2s var(--ease);
+    }
+    .work-card .wt.admin-editable-title:hover{ background:rgba(176,137,78,.12); }
+    .work-card .wt.admin-editable-title:focus{
+      background:#fff; box-shadow:0 0 0 2px rgba(176,137,78,.35);
+      white-space:normal; outline:none;
+    }
+    .work-del{
+      position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:50%;
+      border:none; background:rgba(192,57,43,.92); color:#fff; cursor:pointer; font-size:15px; line-height:1;
+    }
+    .work-del:hover{ background:#a93226; }
+    .work-card .wm{ cursor:grab; }
+    .work-card .wm:active{ cursor:grabbing; }
+    .work-card.dragging{ opacity:.45; outline:2px dashed var(--accent); }
+    .work-card .wm img{ pointer-events:none; }
+    .reorder-bar{ display:flex; gap:6px; padding:6px 8px 8px; }
+    .reorder-btn{
+      flex:1; border:1px solid var(--line); background:#fff; color:var(--ink);
+      border-radius:6px; padding:4px 0; cursor:pointer; font-size:12px; transition:all .15s var(--ease);
+    }
+    .reorder-btn:hover{ background:var(--bg-soft); border-color:var(--accent); color:var(--accent); }
+    .ex-sub{ font-size:14px; font-weight:600; margin:14px 0 10px; color:var(--ink); }
+    .ex-sub .count{ font-size:12px; color:var(--muted); font-weight:400; margin-left:6px; }
+    /* 登录遮罩 */
+    #loginMask{ position:fixed; inset:0; background:rgba(16,18,23,.92); z-index:200; display:flex; align-items:center; justify-content:center; }
+    #loginMask .box{ background:#fff; border-radius:14px; padding:34px; width:320px; text-align:center; }
+    #loginMask h2{ font-size:20px; margin-bottom:18px; }
+    #loginMask input{ width:100%; padding:12px; border:1px solid var(--line); border-radius:8px; font:inherit; margin-bottom:14px; }
+    #loginMask button{ width:100%; padding:12px; background:var(--accent); color:#fff; border:none; border-radius:8px; font:inherit; font-weight:600; cursor:pointer; }
+    #loginMsg{ color:#c0392b; font-size:13px; min-height:18px; margin-bottom:8px; }
+  </style>
+</head>
+<body>
+
+  <div id="loginMask">
+    <div class="box">
+      <h2>管理后台登录</h2>
+      <div id="loginMsg"></div>
+      <input type="password" id="pwInput" placeholder="管理密码（默认 admin123）" />
+      <button id="loginBtn">进入</button>
+    </div>
+  </div>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner container">
+      <a class="brand" href="index.html">作品集<span>.yang</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#home">首页</a>
+        <a href="about.html">关于</a>
+        <a href="index.html#brand">品牌视觉</a>
+        <a href="index.html#detail">电商详情</a>
+        <a href="index.html#packaging">包装设计</a>
+        <a href="index.html#poster">活动海报</a>
+        <a href="index.html#live">直播间视觉</a>
+        <a href="index.html#video">电商视频</a>
+        <a href="index.html#exhibition">展会视觉</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-wrap">
+    <h1 class="admin-h">作品管理后台</h1>
+    <p class="admin-sub">上传新作品、删除已有作品。修改会直接写入 js/data.js 与 assets/ 目录。</p>
+
+    <!-- 上传面板 -->
+    <section class="panel">
+      <h3>上传作品</h3>
+      <div class="form-row">
+        <label>板块
+          <select id="upSection">
+            <option value="detail">电商详情（长图，自动切片）</option>
+            <option value="packaging">包装设计</option>
+            <option value="poster">活动海报（长图，自动切片）</option>
+            <option value="live">直播间视觉</option>
+            <option value="video">电商视频</option>
+            <option value="brand">品牌视觉（PDF）</option>
+            <option value="exhibition">展会视觉</option>
+          </select>
+        </label>
+        <label>作品标题
+          <input type="text" id="upTitle" placeholder="如：主食餐盒 / 乌鸡猫粮" />
+        </label>
+      </div>
+
+      <!-- 展会专属 -->
+      <div id="exFields" style="display:none;">
+        <div class="form-row">
+          <label>选择展会
+            <select id="upExSelect"></select>
+          </label>
+          <label>或新建展会名称
+            <input type="text" id="upNewEx" placeholder="如：京宠展 2026" />
+          </label>
+          <label>新建展会英文（可选）
+            <input type="text" id="upNewExEn" placeholder="如：Pet Fair 2026" />
+          </label>
+        </div>
+      </div>
+
+      <div class="file-drop" id="drop">
+        点击选择文件，或将文件拖拽到此处<br>（可多选：详情/海报/包装/直播间/展会支持多图，视频/PDF 单个）
+        <div class="file-name" id="fileName"></div>
+        <input type="file" id="upFile" multiple style="display:none;" />
+      </div>
+      <button class="btn-primary" id="upBtn">上传</button>
+      <div class="msg" id="upMsg"></div>
+    </section>
+
+    <!-- 作品列表 -->
+    <section class="panel">
+      <h3>已有作品（点击 × 删除 · 点击标题改名 · 拖动图片或点 ◀▶ 调整顺序）</h3>
+      <div id="workList"></div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin_shared.js"></script>
+  <script>
+  (function(){
+    "use strict";
+    var TOKEN = null;
+    var DATA = window.PORTFOLIO || {};
+    var draggedCard = null;
+
+    /* ---------- 登录 ---------- */
+    var loginMask = document.getElementById("loginMask");
+    var pwInput = document.getElementById("pwInput");
+    var loginBtn = document.getElementById("loginBtn");
+    var loginMsg = document.getElementById("loginMsg");
+
+    if(location.protocol === "file:"){
+      pwInput.disabled = true; loginBtn.disabled = true;
+      loginMsg.innerHTML = "当前是本地文件打开方式，请通过服务器地址访问：<br><b>http://localhost:8000/admin.html</b>";
+    }
+
+    function doLogin(){
+      var pw = pwInput.value;
+      fetch("/api/login", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({password:pw})
+      }).then(function(r){ return r.json(); }).then(function(j){
+        if(j.ok){ TOKEN = j.token; loginMask.style.display="none"; renderList(); }
+        else { loginMsg.textContent = j.error || "登录失败"; }
+      }).catch(function(){ loginMsg.textContent = "服务器未启动，请先运行 server.py"; });
+    }
+    loginBtn.addEventListener("click", doLogin);
+    pwInput.addEventListener("keydown", function(e){ if(e.key==="Enter") doLogin(); });
+
+    /* ---------- 上传 ---------- */
+    var sectionSel = document.getElementById("upSection");
+    var titleEl = document.getElementById("upTitle");
+    var exFields = document.getElementById("exFields");
+    var exSelect = document.getElementById("upExSelect");
+    var newExEl = document.getElementById("upNewEx");
+    var drop = document.getElementById("drop");
+    var fileInput = document.getElementById("upFile");
+    var fileNameEl = document.getElementById("fileName");
+    var upBtn = document.getElementById("upBtn");
+    var upMsg = document.getElementById("upMsg");
+
+    // 初始化展会下拉
+    (DATA.exhibition||[]).forEach(function(ex){
+      var o = document.createElement("option");
+      o.value = ex.name; o.textContent = ex.name;
+      exSelect.appendChild(o);
+    });
+    var newOpt = document.createElement("option");
+    newOpt.value = "__new__"; newOpt.textContent = "＋ 新建展会…";
+    exSelect.appendChild(newOpt);
+
+    function syncSectionUI(){
+      var s = sectionSel.value;
+      exFields.style.display = (s === "exhibition") ? "" : "none";
+      var accept = "image/*";
+      if(s === "video") accept = "video/*";
+      else if(s === "brand") accept = "application/pdf";
+      fileInput.setAttribute("accept", accept);
+    }
+    sectionSel.addEventListener("change", syncSectionUI);
+    syncSectionUI();
+
+    drop.addEventListener("click", function(){ fileInput.click(); });
+    drop.addEventListener("dragover", function(e){ e.preventDefault(); drop.classList.add("drag"); });
+    drop.addEventListener("dragleave", function(){ drop.classList.remove("drag"); });
+    drop.addEventListener("drop", function(e){
+      e.preventDefault(); drop.classList.remove("drag");
+      fileInput.files = e.dataTransfer.files;
+      showFiles();
+    });
+    fileInput.addEventListener("change", showFiles);
+    function showFiles(){
+      var n = fileInput.files.length;
+      fileNameEl.textContent = n ? (n + " 个文件已选择") : "";
+    }
+
+    upBtn.addEventListener("click", function(){
+      if(!TOKEN){ loginMsg.textContent = "请先登录"; loginMask.style.display="flex"; return; }
+      var files = fileInput.files;
+      if(!files.length){ upMsg.className="msg err"; upMsg.textContent="请先选择文件"; return; }
+      var fd = new FormData();
+      fd.append("token", TOKEN);
+      fd.append("section", sectionSel.value);
+      fd.append("title", titleEl.value);
+      if(sectionSel.value === "exhibition"){
+        if(exSelect.value === "__new__"){ fd.append("newExName", newExEl.value); fd.append("newExEn", document.getElementById("upNewExEn").value); }
+        else { fd.append("exhibition", exSelect.value); }
+      }
+      for(var i=0;i<files.length;i++){ fd.append("files", files[i]); }
+      upBtn.disabled = true; upMsg.className="msg"; upMsg.textContent="上传中…";
+      fetch("/api/upload", { method:"POST", headers:{"X-Admin-Token":TOKEN}, body: fd })
+        .then(function(r){ return r.json(); })
+        .then(function(j){
+          upBtn.disabled = false;
+          if(j.ok){ upMsg.className="msg ok"; upMsg.textContent="上传成功，已添加 "+j.added.length+" 个文件。刷新首页即可看到。"; fileInput.value=""; fileNameEl.textContent=""; titleEl.value=""; reloadData(); }
+          else { upMsg.className="msg err"; upMsg.textContent = j.error || "上传失败"; }
+        })
+        .catch(function(){ upBtn.disabled=false; upMsg.className="msg err"; upMsg.textContent="请求失败"; });
+    });
+
+    /* ---------- 列表 / 删除 ---------- */
+    function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+
+    function reloadData(){
+      // 重新拉取最新 data.js（带时间戳避免缓存）
+      var s = document.createElement("script");
+      s.src = "js/data.js?t=" + Date.now();
+      s.onload = function(){ DATA = window.PORTFOLIO || DATA; renderList(); };
+      document.body.appendChild(s);
+    }
+
+    function renderList(){
+      var box = document.getElementById("workList");
+      box.innerHTML = "";
+      var sections = [
+        {key:"detail", label:"电商详情"},
+        {key:"packaging", label:"包装设计"},
+        {key:"poster", label:"活动海报"},
+        {key:"live", label:"直播间视觉"},
+        {key:"video", label:"电商视频"},
+        {key:"brand", label:"品牌视觉"}
+      ];
+      sections.forEach(function(sec){
+        renderSimpleSection(box, sec.key, sec.label);
+      });
+      renderExhibition(box);
+    }
+
+    function cardHtml(thumb, title, delHandler, meta){
+      var card = document.createElement("div");
+      card.className = "work-card";
+      card.dataset.file = meta.file || "";
+      card.dataset.section = meta.section || "";
+      if(meta.exName) card.dataset.exname = meta.exName;
+      var media = thumb
+        ? '<div class="wm" draggable="true"><img src="'+esc(thumb)+'" alt="" draggable="false"></div>'
+        : '<div class="wm" draggable="true"><div class="ph">PDF</div></div>';
+      card.innerHTML = media
+        + '<div class="wt admin-editable-title" title="点击修改名称">'+esc(title)+'</div>'
+        + '<div class="reorder-bar">'
+        +   '<button class="reorder-btn" data-dir="left" title="向前移动">◀ 前移</button>'
+        +   '<button class="reorder-btn" data-dir="right" title="向后移动">后移 ▶</button>'
+        + '</div>';
+      var del = document.createElement("button");
+      del.className = "work-del"; del.textContent = "×"; del.title = "删除";
+      del.addEventListener("click", delHandler);
+      card.appendChild(del);
+      bindTitleEdit(card.querySelector(".wt"), meta);
+
+      // 拖动图片排序
+      var wm = card.querySelector(".wm");
+      wm.addEventListener("dragstart", function(e){
+        draggedCard = card; card.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+        try { e.dataTransfer.setData("text/plain", meta.file || ""); } catch(_){}
+      });
+      wm.addEventListener("dragend", function(){
+        card.classList.remove("dragging"); draggedCard = null;
+        submitOrder(card.closest(".work-grid"));
+      });
+      // 前移 / 后移按钮
+      card.querySelectorAll(".reorder-btn").forEach(function(b){
+        b.addEventListener("click", function(e){
+          e.stopPropagation();
+          if(b.dataset.dir === "left" && card.previousElementSibling && card.previousElementSibling.classList.contains("work-card")){
+            card.previousElementSibling.before(card);
+          } else if(b.dataset.dir === "right" && card.nextElementSibling && card.nextElementSibling.classList.contains("work-card")){
+            card.nextElementSibling.after(card);
+          } else { return; }
+          submitOrder(card.closest(".work-grid"));
+        });
+      });
+      return card;
+    }
+
+    // 拖动时经过网格，实时插入
+    function attachGridDnD(grid){
+      grid.addEventListener("dragover", function(e){
+        e.preventDefault();
+        if(!draggedCard || draggedCard.closest(".work-grid") !== grid) return;
+        var over = e.target.closest(".work-card");
+        if(over && over !== draggedCard && over.closest(".work-grid") === grid){
+          var rect = over.getBoundingClientRect();
+          if((e.clientX - rect.left) > rect.width / 2) over.after(draggedCard);
+          else over.before(draggedCard);
+        }
+      });
+    }
+
+    // 收集当前网格顺序并回写
+    function submitOrder(grid){
+      if(!grid) return;
+      var order = [];
+      grid.querySelectorAll(".work-card").forEach(function(c){
+        if(c.dataset.file) order.push(c.dataset.file);
+      });
+      if(!order.length) return;
+      var payload = {token: TOKEN, section: grid.dataset.section, order: order};
+      if(grid.dataset.exname) payload.exName = grid.dataset.exname;
+      fetch("/api/reorder", {
+        method:"POST", headers:{"Content-Type":"application/json","X-Admin-Token":TOKEN},
+        body: JSON.stringify(payload)
+      }).then(function(r){ return r.json(); }).then(function(j){
+        if(!j.ok) alert("排序失败："+(j.error||"")); else reloadData();
+      }).catch(function(e){ alert("排序失败："+e.message); });
+    }
+
+    function bindTitleEdit(el, meta){
+      if(!el || !meta || !meta.section || !meta.file) return;
+      el.addEventListener("click", function(e){
+        e.stopPropagation();
+        el.contentEditable = "true";
+        el.focus();
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges(); sel.addRange(range);
+      });
+      el.addEventListener("focus", function(){ el.dataset.originalTitle = el.textContent; });
+      el.addEventListener("keydown", function(e){
+        if(e.key === "Enter"){ e.preventDefault(); el.blur(); }
+        else if(e.key === "Escape"){
+          e.preventDefault();
+          el.textContent = el.dataset.originalTitle || "";
+          el.blur();
+        }
+      });
+      el.addEventListener("blur", function(){
+        el.contentEditable = "false";
+        var newTitle = el.textContent.trim();
+        var oldTitle = el.dataset.originalTitle || "";
+        if(!newTitle){ el.textContent = oldTitle; return; }
+        if(newTitle === oldTitle) return;
+        var payload = {token: TOKEN, section: meta.section, file: meta.file, title: newTitle};
+        if(meta.exName) payload.exName = meta.exName;
+        fetch("/api/rename", {
+          method: "POST",
+          headers: {"Content-Type":"application/json", "X-Admin-Token": TOKEN},
+          body: JSON.stringify(payload)
+        }).then(function(r){ return r.json(); }).then(function(j){
+          if(!j.ok){ alert("改名失败："+(j.error||"未知错误")); el.textContent = oldTitle; }
+          else { reloadData(); }
+        }).catch(function(e){ alert("改名失败："+e.message); el.textContent = oldTitle; });
+      });
+    }
+
+    function renderSimpleSection(box, key, label){
+      var arr = DATA[key] || [];
+      var wrap = document.createElement("div");
+      wrap.className = "admin-section";
+      wrap.innerHTML = '<h4>'+label+' <span class="count">'+arr.length+' 项</span></h4>';
+      var grid = document.createElement("div"); grid.className = "work-grid";
+      grid.dataset.section = key;
+      arr.forEach(function(item, idx){
+        var thumb = (key==="video") ? "" : (item.img || item.cover || "");
+        if(key==="brand" && !item.cover) thumb = "";
+        var file = (key==="video") ? item.src : (key==="brand" ? item.pdf : item.img);
+        grid.appendChild(cardHtml(thumb, item.title, function(){
+          if(!confirm("确定删除「"+item.title+"」？此操作不可撤销。")) return;
+          deleteItem({section:key, file:file});
+        }, {section:key, file:file}));
+      });
+      attachGridDnD(grid);
+      if(!arr.length) wrap.innerHTML += '<p class="admin-sub">暂无</p>';
+      wrap.appendChild(grid);
+      box.appendChild(wrap);
+    }
+
+    function renderExhibition(box){
+      var exs = DATA.exhibition || [];
+      var wrap = document.createElement("div");
+      wrap.className = "admin-section";
+      wrap.innerHTML = '<h4>展会视觉 <span class="count">'+exs.length+' 个展会</span></h4>';
+      var box2 = document.createElement("div");
+      exs.forEach(function(ex){
+        var sub = document.createElement("div");
+        sub.innerHTML = '<div class="ex-sub">'+esc(ex.name)+' <span class="count">'+(ex.images||[]).length+' 张</span></div>';
+        var grid = document.createElement("div"); grid.className = "work-grid";
+        grid.dataset.section = "exhibition";
+        grid.dataset.exname = ex.name;
+        (ex.images||[]).forEach(function(im){
+          grid.appendChild(cardHtml(im.img, im.title || ex.name, function(){
+            if(!confirm("确定删除该展会图片？")) return;
+            deleteItem({section:"exhibition", exName:ex.name, img:im.img});
+          }, {section:"exhibition", file:im.img, exName:ex.name}));
+        });
+        attachGridDnD(grid);
+        sub.appendChild(grid);
+        box2.appendChild(sub);
+      });
+      if(!exs.length) wrap.innerHTML += '<p class="admin-sub">暂无</p>';
+      wrap.appendChild(box2);
+      box.appendChild(wrap);
+    }
+
+    function deleteItem(payload){
+      payload.token = TOKEN;
+      fetch("/api/delete", {
+        method:"POST", headers:{"Content-Type":"application/json","X-Admin-Token":TOKEN},
+        body: JSON.stringify(payload)
+      }).then(function(r){ return r.json(); }).then(function(j){
+        if(j.ok){ reloadData(); }
+        else { alert(j.error || "删除失败"); }
+      }).catch(function(){ alert("请求失败"); });
+    }
+
+    renderList();
+  })();
+  </script>
+</body>
+</html>
