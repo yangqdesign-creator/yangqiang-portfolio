@@ -54,10 +54,22 @@
       border:none; background:rgba(192,57,43,.92); color:#fff; cursor:pointer; font-size:15px; line-height:1;
     }
     .work-del:hover{ background:#a93226; }
-    .work-card .wm{ cursor:grab; }
-    .work-card .wm:active{ cursor:grabbing; }
-    .work-card.dragging{ opacity:.45; outline:2px dashed var(--accent); }
+    /* 整卡可拖拽 */
+    .work-card{ cursor:grab; user-select:none; }
     .work-card .wm img{ pointer-events:none; }
+    .work-card.dragging{ cursor:grabbing; opacity:.5; transform:scale(.98); box-shadow:0 12px 28px rgba(0,0,0,.18); outline:2px dashed var(--accent); z-index:10; }
+    .work-card.drop-target{ outline:2px solid var(--accent); }
+    /* 拖拽把手 */
+    .drag-handle{
+      position:absolute; top:6px; left:50%; transform:translateX(-50%);
+      padding:2px 8px; border-radius:10px; background:rgba(255,255,255,.85);
+      color:var(--muted); font-size:11px; letter-spacing:.2px;
+      pointer-events:none; border:1px solid var(--line);
+    }
+    .work-card:hover .drag-handle{ color:var(--accent); border-color:var(--accent); }
+    /* 卡片内按钮恢复默认光标 */
+    .work-card button, .work-card input, .work-card .admin-editable-title{ cursor:pointer; }
+    .work-card .admin-editable-title{ cursor:text; }
     .reorder-bar{ display:flex; gap:6px; padding:6px 8px 8px; }
     .reorder-btn{
       flex:1; border:1px solid var(--line); background:#fff; color:var(--ink);
@@ -65,13 +77,18 @@
     }
     .reorder-btn:hover{ background:var(--bg-soft); border-color:var(--accent); color:var(--accent); }
     label small{ display:block; margin-top:4px; color:var(--muted); font-size:12px; font-weight:400; }
+    .cover-actions{
+      display:flex; gap:6px; padding:0 8px; margin-bottom:8px;
+    }
     .cover-btn{
-      display:block; width:calc(100% - 16px); margin:0 8px 8px; padding:5px 0;
+      flex:1; padding:5px 0;
       border:1px solid var(--line); background:#fff; color:var(--accent);
       border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;
       transition:all .15s var(--ease);
     }
     .cover-btn:hover{ background:var(--bg-soft); border-color:var(--accent); }
+    .cover-btn.delete-cover-btn{ color:#d9455f; border-color:#f1c6cc; }
+    .cover-btn.delete-cover-btn:hover{ background:#fff0f2; border-color:#d9455f; }
     .ex-sub{ font-size:14px; font-weight:600; margin:14px 0 10px; color:var(--ink); }
     .ex-sub .count{ font-size:12px; color:var(--muted); font-weight:400; margin-left:6px; }
     /* 登录遮罩 */
@@ -312,11 +329,13 @@
       card.dataset.file = meta.file || "";
       card.dataset.section = meta.section || "";
       if(meta.exName) card.dataset.exname = meta.exName;
+      card.draggable = true;
       var displaySrc = meta.cover || thumb;
       var media = displaySrc
-        ? '<div class="wm" draggable="true"><img src="'+esc(displaySrc)+'" alt="" draggable="false"></div>'
-        : '<div class="wm" draggable="true"><div class="ph">'+(meta.section==="brand"?"PDF":"无封面")+'</div></div>';
-      card.innerHTML = media
+        ? '<div class="wm"><img src="'+esc(displaySrc)+'" alt="" draggable="false"></div>'
+        : '<div class="wm"><div class="ph">'+(meta.section==="brand"?"PDF":"无封面")+'</div></div>';
+      card.innerHTML = '<div class="drag-handle" title="拖动排序">⇅ 拖动排序</div>'
+        + media
         + '<div class="wt admin-editable-title" title="点击修改名称">'+esc(title)+'</div>'
         + '<div class="cover-actions">'
         +   '<button class="cover-btn upload-cover-btn" title="上传/更换封面">'+(meta.cover?"更换封面":"上传封面")+'</button>'
@@ -332,8 +351,8 @@
       card.appendChild(del);
       bindTitleEdit(card.querySelector(".wt"), meta);
 
-      // 封面上传
-      card.querySelector(".cover-btn").addEventListener("click", function(e){
+      // 封面上传/更换
+      card.querySelector(".upload-cover-btn").addEventListener("click", function(e){
         e.stopPropagation();
         var input = document.createElement("input");
         input.type = "file"; input.accept = "image/*";
@@ -356,15 +375,40 @@
         input.click();
       });
 
-      // 拖动图片排序
-      var wm = card.querySelector(".wm");
-      wm.addEventListener("dragstart", function(e){
+      // 删除封面
+      var delCoverBtn = card.querySelector(".delete-cover-btn");
+      if(delCoverBtn){
+        delCoverBtn.addEventListener("click", function(e){
+          e.stopPropagation();
+          if(!confirm("确定删除该作品的封面？删除后将恢复默认显示。")) return;
+          fetch("/api/delete_cover", {
+            method:"POST",
+            headers:{"Content-Type":"application/json","X-Admin-Token":TOKEN},
+            body: JSON.stringify({token: TOKEN, section: meta.section, file: meta.file, exName: meta.exName})
+          })
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            if(j.ok){ reloadData(); }
+            else { alert("封面删除失败："+(j.error||"")); }
+          })
+          .catch(function(e){ alert("请求失败："+e.message); });
+        });
+      }
+
+      // 整卡拖拽排序
+      card.addEventListener("dragstart", function(e){
+        // 在按钮、输入框、可编辑标题、删除按钮上按下时不触发拖拽
+        if(e.target.closest("button, input, .admin-editable-title")){
+          e.preventDefault();
+          return;
+        }
         draggedCard = card; card.classList.add("dragging");
         e.dataTransfer.effectAllowed = "move";
         try { e.dataTransfer.setData("text/plain", meta.file || ""); } catch(_){}
       });
-      wm.addEventListener("dragend", function(){
+      card.addEventListener("dragend", function(){
         card.classList.remove("dragging"); draggedCard = null;
+        document.querySelectorAll(".work-card.drop-target").forEach(function(c){ c.classList.remove("drop-target"); });
         submitOrder(card.closest(".work-grid"));
       });
       // 前移 / 后移按钮
@@ -389,10 +433,16 @@
         if(!draggedCard || draggedCard.closest(".work-grid") !== grid) return;
         var over = e.target.closest(".work-card");
         if(over && over !== draggedCard && over.closest(".work-grid") === grid){
+          document.querySelectorAll(".work-card.drop-target").forEach(function(c){ if(c!==over) c.classList.remove("drop-target"); });
+          over.classList.add("drop-target");
           var rect = over.getBoundingClientRect();
           if((e.clientX - rect.left) > rect.width / 2) over.after(draggedCard);
           else over.before(draggedCard);
         }
+      });
+      grid.addEventListener("dragleave", function(e){
+        var over = e.target.closest(".work-card");
+        if(over) over.classList.remove("drop-target");
       });
     }
 

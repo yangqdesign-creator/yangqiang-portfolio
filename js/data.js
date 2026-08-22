@@ -319,11 +319,6 @@ window.PORTFOLIO = {
       "cover": "assets/covers/packaging/pkg-08-cover.png"
     },
     {
-      "img": "assets/packaging/pkg-10.jpg",
-      "title": "猫草猫条",
-      "desc": ""
-    },
-    {
       "img": "assets/packaging/pkg-11.jpg",
       "title": "鸡丝浓汤罐",
       "desc": ""
@@ -331,6 +326,16 @@ window.PORTFOLIO = {
     {
       "img": "assets/packaging/pkg-15.jpg",
       "title": "鸡丝浓汤罐",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-21.jpg",
+      "title": "4 2",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-24.jpg",
+      "title": "6 2",
       "desc": ""
     },
     {
@@ -349,38 +354,38 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
-      "img": "assets/packaging/pkg-16.png",
-      "title": "24盒渲染",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-17.jpg",
-      "title": "3 2",
-      "desc": ""
-    },
-    {
       "img": "assets/packaging/pkg-18.jpg",
-      "title": "3",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-19.jpg",
-      "title": "300g.36",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-20.jpg",
-      "title": "300g.43",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-21.jpg",
-      "title": "4 2",
+      "title": "鱼油猫条",
       "desc": ""
     },
     {
       "img": "assets/packaging/pkg-22.jpg",
-      "title": "4",
+      "title": "鱼油猫条",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-27.jpg",
+      "title": "鱼油猫条",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-29.jpg",
+      "title": "鱼油猫条",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-16.png",
+      "title": "主食餐盒",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-10.jpg",
+      "title": "猫草猫条",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-17.jpg",
+      "title": "猫草猫条",
       "desc": ""
     },
     {
@@ -389,23 +394,8 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
-      "img": "assets/packaging/pkg-24.jpg",
-      "title": "6 2",
-      "desc": ""
-    },
-    {
       "img": "assets/packaging/pkg-25.jpg",
       "title": "6",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-26.jpg",
-      "title": "60g.42",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-27.jpg",
-      "title": "7",
       "desc": ""
     },
     {
@@ -414,8 +404,13 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
-      "img": "assets/packaging/pkg-29.jpg",
-      "title": "8",
+      "img": "assets/packaging/pkg-26.jpg",
+      "title": "60g.42",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-36.png",
+      "title": "c78猫粮2kg右侧0000",
       "desc": ""
     },
     {
@@ -446,11 +441,6 @@ window.PORTFOLIO = {
     {
       "img": "assets/packaging/pkg-35.png",
       "title": "b78湿粮1-8kg右侧0000",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-36.png",
-      "title": "c78猫粮2kg右侧0000",
       "desc": ""
     },
     {
@@ -701,7 +691,7 @@ window.PORTFOLIO = {
       "pdf": "assets/brand/brand-07.pdf",
       "title": "笑宠 品牌视觉形象手册",
       "size": "73.7 MB",
-      "cover": "assets/brand/brand-07-cover.svg",
+      "cover": "",
       "desc": ""
     },
     {
