@@ -64,6 +64,14 @@
       border-radius:6px; padding:4px 0; cursor:pointer; font-size:12px; transition:all .15s var(--ease);
     }
     .reorder-btn:hover{ background:var(--bg-soft); border-color:var(--accent); color:var(--accent); }
+    label small{ display:block; margin-top:4px; color:var(--muted); font-size:12px; font-weight:400; }
+    .cover-btn{
+      display:block; width:calc(100% - 16px); margin:0 8px 8px; padding:5px 0;
+      border:1px solid var(--line); background:#fff; color:var(--accent);
+      border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;
+      transition:all .15s var(--ease);
+    }
+    .cover-btn:hover{ background:var(--bg-soft); border-color:var(--accent); }
     .ex-sub{ font-size:14px; font-weight:600; margin:14px 0 10px; color:var(--ink); }
     .ex-sub .count{ font-size:12px; color:var(--muted); font-weight:400; margin-left:6px; }
     /* 登录遮罩 */
@@ -147,6 +155,12 @@
         <div class="file-name" id="fileName"></div>
         <input type="file" id="upFile" multiple style="display:none;" />
       </div>
+      <div class="form-row">
+        <label>封面（可选，仅单文件上传时生效）
+          <input type="file" id="upCover" accept="image/*" />
+          <small>上传视频/PDF/单个图片时可同时指定封面；多文件请到列表中单独设置。</small>
+        </label>
+      </div>
       <button class="btn-primary" id="upBtn">上传</button>
       <div class="msg" id="upMsg"></div>
     </section>
@@ -199,6 +213,7 @@
     var newExEl = document.getElementById("upNewEx");
     var drop = document.getElementById("drop");
     var fileInput = document.getElementById("upFile");
+    var coverInput = document.getElementById("upCover");
     var fileNameEl = document.getElementById("fileName");
     var upBtn = document.getElementById("upBtn");
     var upMsg = document.getElementById("upMsg");
@@ -251,12 +266,13 @@
         else { fd.append("exhibition", exSelect.value); }
       }
       for(var i=0;i<files.length;i++){ fd.append("files", files[i]); }
+      if(coverInput.files.length){ fd.append("cover", coverInput.files[0]); }
       upBtn.disabled = true; upMsg.className="msg"; upMsg.textContent="上传中…";
       fetch("/api/upload", { method:"POST", headers:{"X-Admin-Token":TOKEN}, body: fd })
         .then(function(r){ return r.json(); })
         .then(function(j){
           upBtn.disabled = false;
-          if(j.ok){ upMsg.className="msg ok"; upMsg.textContent="上传成功，已添加 "+j.added.length+" 个文件。刷新首页即可看到。"; fileInput.value=""; fileNameEl.textContent=""; titleEl.value=""; reloadData(); }
+          if(j.ok){ upMsg.className="msg ok"; upMsg.textContent="上传成功，已添加 "+j.added.length+" 个文件。刷新首页即可看到。"; fileInput.value=""; coverInput.value=""; fileNameEl.textContent=""; titleEl.value=""; reloadData(); }
           else { upMsg.className="msg err"; upMsg.textContent = j.error || "上传失败"; }
         })
         .catch(function(){ upBtn.disabled=false; upMsg.className="msg err"; upMsg.textContent="请求失败"; });
@@ -296,11 +312,13 @@
       card.dataset.file = meta.file || "";
       card.dataset.section = meta.section || "";
       if(meta.exName) card.dataset.exname = meta.exName;
-      var media = thumb
-        ? '<div class="wm" draggable="true"><img src="'+esc(thumb)+'" alt="" draggable="false"></div>'
-        : '<div class="wm" draggable="true"><div class="ph">PDF</div></div>';
+      var displaySrc = meta.cover || thumb;
+      var media = displaySrc
+        ? '<div class="wm" draggable="true"><img src="'+esc(displaySrc)+'" alt="" draggable="false"></div>'
+        : '<div class="wm" draggable="true"><div class="ph">'+(meta.section==="brand"?"PDF":"无封面")+'</div></div>';
       card.innerHTML = media
         + '<div class="wt admin-editable-title" title="点击修改名称">'+esc(title)+'</div>'
+        + '<button class="cover-btn" title="上传/更换封面">'+(meta.cover?"更换封面":"上传封面")+'</button>'
         + '<div class="reorder-bar">'
         +   '<button class="reorder-btn" data-dir="left" title="向前移动">◀ 前移</button>'
         +   '<button class="reorder-btn" data-dir="right" title="向后移动">后移 ▶</button>'
@@ -310,6 +328,30 @@
       del.addEventListener("click", delHandler);
       card.appendChild(del);
       bindTitleEdit(card.querySelector(".wt"), meta);
+
+      // 封面上传
+      card.querySelector(".cover-btn").addEventListener("click", function(e){
+        e.stopPropagation();
+        var input = document.createElement("input");
+        input.type = "file"; input.accept = "image/*";
+        input.addEventListener("change", function(){
+          if(!input.files.length) return;
+          var fd = new FormData();
+          fd.append("token", TOKEN);
+          fd.append("section", meta.section);
+          fd.append("file", meta.file);
+          if(meta.exName) fd.append("exName", meta.exName);
+          fd.append("cover", input.files[0]);
+          fetch("/api/upload_cover", {method:"POST", headers:{"X-Admin-Token":TOKEN}, body:fd})
+            .then(function(r){ return r.json(); })
+            .then(function(j){
+              if(j.ok){ reloadData(); }
+              else { alert("封面上传失败："+(j.error||"")); }
+            })
+            .catch(function(e){ alert("请求失败："+e.message); });
+        });
+        input.click();
+      });
 
       // 拖动图片排序
       var wm = card.querySelector(".wm");
@@ -416,13 +458,21 @@
       var grid = document.createElement("div"); grid.className = "work-grid";
       grid.dataset.section = key;
       arr.forEach(function(item, idx){
-        var thumb = (key==="video") ? "" : (item.img || item.cover || "");
-        if(key==="brand" && !item.cover) thumb = "";
+        var thumb = "";
+        if(key === "video"){
+          thumb = item.cover || "";
+        } else if(key === "brand"){
+          thumb = item.cover || "";
+        } else if(key === "detail" || key === "poster"){
+          thumb = item.cover || (item.img || "").replace(/(\.(?:jpg|jpeg|png))$/i, "-thumb$1");
+        } else {
+          thumb = item.cover || item.img || "";
+        }
         var file = (key==="video") ? item.src : (key==="brand" ? item.pdf : item.img);
         grid.appendChild(cardHtml(thumb, item.title, function(){
           if(!confirm("确定删除「"+item.title+"」？此操作不可撤销。")) return;
           deleteItem({section:key, file:file});
-        }, {section:key, file:file}));
+        }, {section:key, file:file, cover:item.cover || ""}));
       });
       attachGridDnD(grid);
       if(!arr.length) wrap.innerHTML += '<p class="admin-sub">暂无</p>';
@@ -443,10 +493,10 @@
         grid.dataset.section = "exhibition";
         grid.dataset.exname = ex.name;
         (ex.images||[]).forEach(function(im){
-          grid.appendChild(cardHtml(im.img, im.title || ex.name, function(){
+          grid.appendChild(cardHtml(im.cover || im.img, im.title || ex.name, function(){
             if(!confirm("确定删除该展会图片？")) return;
             deleteItem({section:"exhibition", exName:ex.name, img:im.img});
-          }, {section:"exhibition", file:im.img, exName:ex.name}));
+          }, {section:"exhibition", file:im.img, exName:ex.name, cover:im.cover || ""}));
         });
         attachGridDnD(grid);
         sub.appendChild(grid);

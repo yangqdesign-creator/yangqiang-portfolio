@@ -36,10 +36,10 @@
       DATA[sec].forEach(function (item) {
         var card;
         if (sec === "detail" || sec === "poster") {
-          var thumb = (item.img || "").replace(/(\.(?:jpg|jpeg|png))$/i, "-thumb$1");
+          var thumb = item.cover || (item.img || "").replace(/(\.(?:jpg|jpeg|png))$/i, "-thumb$1");
           card = makeImgCard(item, thumb, function () { openSliceModal(item); });
         } else {
-          card = makeImgCard(item, item.img, function () { openLightbox(DATA[sec], DATA[sec].indexOf(item)); });
+          card = makeImgCard(item, item.cover || item.img, function () { openLightbox(DATA[sec], DATA[sec].indexOf(item)); });
         }
         card.dataset.admSection = sec;
         card.dataset.admFile = item.img;
@@ -57,8 +57,9 @@
         card.dataset.admSection = "video";
         card.dataset.admFile = item.src;
         card.dataset.admTitle = item.title || "";
+        var posterAttr = item.cover ? ' poster="' + item.cover + '"' : '';
         card.innerHTML =
-          '<video controls preload="metadata" playsinline src="' + item.src +
+          '<video controls preload="metadata" playsinline' + posterAttr + ' src="' + item.src +
           '"></video>' +
           '<div class="card-title">' + escapeHtml(item.title) + "</div>";
         vbox.appendChild(card);
@@ -130,7 +131,7 @@
       var grid = document.createElement("div");
       grid.className = "ex-grid";
       group.images.forEach(function (img, i) {
-        var card = makeImgCard(img, img.img, function () { openLightbox(group.images, i); });
+        var card = makeImgCard(img, img.cover || img.img, function () { openLightbox(group.images, i); });
         card.dataset.admSection = "exhibition";
         card.dataset.admFile = img.img;
         card.dataset.admExname = group.name;
