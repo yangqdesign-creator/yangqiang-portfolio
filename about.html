@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>关于我 · 电商设计作品集</title>
+  <meta name="description" content="杨先生 · 视觉设计总监/经理 · 个人信息、求职意向、个人优势、工作经历与教育背景" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .edit-toolbar{ display:none; position:fixed; right:18px; bottom:18px; z-index:1000; gap:10px; }
+    .edit-toolbar button{ border:none; border-radius:50px; padding:12px 22px; font-size:14px; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.18); }
+    .btn-edit{ background:var(--accent); color:#fff; }
+    .btn-save{ background:#2a9d8f; color:#fff; }
+    .btn-cancel{ background:#e9e9e9; color:#333; }
+    body.editing .edit-toolbar{ display:flex; }
+    body.editing .editable{ outline:2px dashed var(--accent); outline-offset:4px; border-radius:4px; cursor:text; }
+    body.editing .editable:hover{ outline-color:#2a9d8f; }
+    .edit-badge{ display:none; position:fixed; left:18px; bottom:18px; background:#16181d; color:#fff; padding:10px 16px; border-radius:50px; font-size:13px; z-index:1000; }
+    body.editing .edit-badge{ display:block; }
+  </style>
+</head>
+<body>
+
+  <!-- 编辑入口：仅管理员可见 -->
+  <div class="edit-toolbar" id="editToolbar">
+    <button type="button" class="btn-edit" id="btnEdit">编辑本页</button>
+    <button type="button" class="btn-save" id="btnSave" style="display:none">保存修改</button>
+    <button type="button" class="btn-cancel" id="btnCancel" style="display:none">取消</button>
+  </div>
+  <div class="edit-badge" id="editBadge">管理模式 · 点击文字即可编辑</div>
+
+  <!-- ============ 导航栏 ============ -->
+  <header class="nav" id="nav">
+    <div class="nav-inner container">
+      <a class="brand" href="index.html">作品集<span>.yang</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#home">首页</a>
+        <a href="index.html#brand">品牌视觉</a>
+        <a href="index.html#detail">电商详情</a>
+        <a href="index.html#packaging">包装设计</a>
+        <a href="index.html#poster">活动海报</a>
+        <a href="index.html#live">直播间视觉</a>
+        <a href="index.html#video">电商视频</a>
+        <a href="index.html#exhibition">展会视觉</a>
+        <a href="about.html" class="active">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ 页面头 ============ -->
+    <section class="about-hero">
+      <div class="container">
+        <p class="kicker editable" data-key="about_kicker">ABOUT ME</p>
+        <h1 class="about-h1 editable" data-key="about_title">杨先生</h1>
+        <p class="about-sub editable" data-key="about_subtitle">视觉设计总监 / 视觉设计经理 · 男 · 33 岁 · 山东临沂</p>
+      </div>
+    </section>
+
+    <div class="container about-page" id="aboutPage">
+
+      <!-- 个人信息 -->
+      <section class="about-block">
+        <h2 class="about-block-title editable" data-key="info_title">个人信息</h2>
+        <div class="info-grid">
+          <div class="info-card"><span class="info-key">姓名</span><span class="info-val editable" data-key="info_name">杨先生</span></div>
+          <div class="info-card"><span class="info-key">性别 / 年龄</span><span class="info-val editable" data-key="info_gender_age">男 / 33 岁</span></div>
+          <div class="info-card"><span class="info-key">电话</span><span class="info-val editable" data-key="info_phone">19508097010</span></div>
+          <div class="info-card"><span class="info-key">邮箱</span><span class="info-val editable" data-key="info_email">1300748129@qq.com</span></div>
+          <div class="info-card"><span class="info-key">工作经验</span><span class="info-val editable" data-key="info_exp">10 年</span></div>
+          <div class="info-card"><span class="info-key">所在城市</span><span class="info-val editable" data-key="info_city">山东临沂</span></div>
+        </div>
+      </section>
+
+      <!-- 求职意向 -->
+      <section class="about-block">
+        <h2 class="about-block-title editable" data-key="intent_title">求职意向</h2>
+        <div class="intent-grid">
+          <div class="intent-card">
+            <span class="intent-key editable" data-key="intent_key_1">意向岗位</span>
+            <span class="intent-val editable" data-key="intent_val_1">视觉设计总监 / 视觉设计经理</span>
+          </div>
+          <div class="intent-card">
+            <span class="intent-key editable" data-key="intent_key_2">期望薪资</span>
+            <span class="intent-val editable" data-key="intent_val_2">12-13K</span>
+          </div>
+          <div class="intent-card">
+            <span class="intent-key editable" data-key="intent_key_3">意向城市</span>
+            <span class="intent-val editable" data-key="intent_val_3">临沂</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 个人优势 -->
+      <section class="about-block">
+        <h2 class="about-block-title editable" data-key="strength_title">个人优势</h2>
+        <ol class="strength-list editable" data-key="strength_list">
+          <li><strong>扎实的成长与管理能力：</strong>从基层设计师逐步晋升至品牌部负责人，熟悉设计全流程及团队管理逻辑，能有效统筹包装、电商设计、电商视频多部门协同。</li>
+          <li><strong>多品牌从 0 到 1 搭建经验：</strong>成功主导多个宠物品牌（如笑宠、尾巴日记等）视觉体系落地，涵盖品牌定位、VI 设计、包装及电商视觉全链路，确保品牌调性统一且贴合市场。</li>
+          <li><strong>强业务转化与爆款打造能力：</strong>主导的核心品牌“笑宠”成长为行业头部，单抖音平台年销售额增长超 3000%，具备通过视觉设计驱动业务增长的实战经验。</li>
+          <li><strong>体系化建设与降本增效成果：</strong>搭建标准化团队工作流程与设计规范，推动“创意-执行-落地”分工明确，实现团队运转依赖流程而非个人，提升效率的同时降低沟通成本。</li>
+          <li><strong>全链路质量把控能力：</strong>精通包装设计、电商视觉（主图/详情/店铺页面）、电商视频（脚本/成品）的标准制定与审核，能精准发现并解决业务中的视觉问题。</li>
+          <li><strong>高效问题解决能力：</strong>在品牌搭建、团队管理及业务推进中，能快速精准定位卡点（如包装存在的问题、店铺视觉问题、流程漏洞、员工遇到的问题等），通过优化方案、流程优化、协调资源推动落地，保障项目高效推进。</li>
+        </ol>
+      </section>
+
+      <!-- 工作经历 -->
+      <section class="about-block">
+        <h2 class="about-block-title editable" data-key="work_title">工作经历</h2>
+        <div class="timeline">
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-head">
+              <span class="tl-date editable" data-key="w1_date">2021.01 — 至今</span>
+              <span class="tl-org editable" data-key="w1_org">临沂某宠物食品电商公司</span>
+              <span class="tl-role editable" data-key="w1_role">设计总监 / 经理</span>
+            </div>
+            <div class="tl-body editable" data-key="w1_body">
+              <h4>一、团队管理与效能提升</h4>
+              <ul>
+                <li>统筹包装设计、电商设计、电商视频三大部门的团队管理，明确各岗位权责与工作流程，优化跨部门协作机制。</li>
+                <li>负责需求对接全流程把控，基于业务优先级合理分配任务，跟踪项目进度并协调资源解决卡点，对最终交付质量与效率负责。</li>
+                <li>定期复盘团队工作成果，提炼问题并推动优化，提升团队专业能力与协作效能。</li>
+              </ul>
+              <h4>二、多品牌体系搭建与落地</h4>
+              <ul>
+                <li>主导公司旗下宠物品牌（笑宠、尾巴日记、波波蓝希、小顽童等）从 0 到 1 的品牌视觉体系搭建，包括品牌定位梳理、核心理念提炼，及 Logo、品牌色、品牌图形等视觉元素设计。</li>
+                <li>制定并输出全品牌 VI 设计规范、电商设计规范、包装设计规范，明确各品牌视觉调性与应用标准，确保品牌形象一致性。</li>
+              </ul>
+              <h4>三、包装设计全流程管控</h4>
+              <ul>
+                <li>负责各宠物品牌包装设计的策略对接、方向把控，审核设计方案与打样效果，确保包装既符合品牌调性，又满足产品功能与用户体验需求。</li>
+                <li>推动包装设计落地，协调解决生产环节中的视觉呈现问题。</li>
+              </ul>
+              <h4>四、电商视觉标准建立与店铺优化</h4>
+              <ul>
+                <li>建立各品牌电商视觉标准体系，涵盖主图、详情页、SKU 图、广告图、首页及活动页等设计规范，明确视觉风格、信息层级与呈现逻辑。</li>
+                <li>审核电商设计成品，确保符合标准；定期巡察各品牌全平台店铺，排查视觉呈现、用户体验等问题并推动整改，提升店铺视觉竞争力。</li>
+              </ul>
+              <h4>五、电商视频标准制定与内容审核</h4>
+              <ul>
+                <li>制定各品牌在全电商平台的主图视频标准（含时长、风格、核心信息点等），确保视频内容与品牌调性一致且符合平台规则。</li>
+                <li>全程把控视频生产流程，审核脚本创意、Demo 效果及成品质量，保证视频传达效率与转化效果。</li>
+              </ul>
+              <h4>业绩亮点</h4>
+              <ul>
+                <li>从基层设计师成长为品牌部负责人，实现职业三级跳，带领团队完成从单一电商设计到全链路品牌视觉管理的跨越升级。</li>
+                <li>主导完成笑宠、尾巴日记等多个宠物品牌从 0 到 1 的全链路打造；核心品牌「笑宠」在 18 个月内成长为行业头部，2023 年抖音平台销售额同比激增 3000%，跃居抖音宠物类目增速第一，带动公司整体电商销售额增长超 2.5 亿元。</li>
+                <li>搭建覆盖包装、电商、视频三大板块的标准化工作流程与团队管理体系，实现从创意设计到供应商对接的全链路规范化运作。</li>
+                <li>建立以流程驱动的团队运作模式，制定《品牌视觉执行手册》《电商各个岗位工作流程》《每个岗位设计的标准》等多项标准化文档，培养 2 名核心设计师晋升为部门负责人，团队人效显著提升。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-head">
+              <span class="tl-date editable" data-key="w2_date">2019.06 — 2021.01</span>
+              <span class="tl-org editable" data-key="w2_org">（北京总部）浙江汉朔电子科技有限公司</span>
+              <span class="tl-role editable" data-key="w2_role">品牌视觉设计</span>
+            </div>
+            <div class="tl-body editable" data-key="w2_body">
+              <h4>主要工作</h4>
+              <p>品牌端主要负责公司品牌升级设计，在公司及市场层面定期对品牌视觉进行升级、梳理及 VI 手册制定，其中参与 2019 年品牌升级及主导 2020 年品牌升级设计。市场端主要负责各大零售展及会议主视觉、邀请函等相关设计、公司中英官网改版设计、市场宣传物料设计等。</p>
+              <h4>重要项目</h4>
+              <ul>
+                <li>2020 年公司品牌升级、公司官网改版设计。</li>
+                <li>Chinashop 项目（展会相关设计、新品发布会相关设计、客户私享会相关设计）。</li>
+                <li>汉朔校园招聘、汉朔年会（表彰大会、落成典礼、合作伙伴峰会相关设计）。</li>
+                <li>三个系列产品样品盒设计等。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-head">
+              <span class="tl-date editable" data-key="w3_date">2018.04 — 2019.06</span>
+              <span class="tl-org editable" data-key="w3_org">（北京总部）浙江颐优贸易有限公司</span>
+              <span class="tl-role editable" data-key="w3_role">视觉设计师</span>
+            </div>
+            <div class="tl-body editable" data-key="w3_body">
+              <h4>主要工作</h4>
+              <p>后期主要负责赫宝品牌及银河战甲在线上电商平台的整体视觉把控、主 KV 设计、专题活动页主设计、爆款产品详情页设计。前期负责安顾宜、世道线上电商平台的视觉设计工作，同时负责公司线下物料设计工作。</p>
+              <h4>业绩</h4>
+              <ul>
+                <li><strong>线上重要项目：</strong>世道品牌整体详情改版、安顾宜电商渠道详情页设计、银河战甲详情全新改版、赫宝品牌爆款详情设计及小米有品平台三款产品站设计。</li>
+                <li><strong>线下重要项目：</strong>公司旗下玩具品牌“playone”的品牌 Logo 及 VI 设计；公司 3 周年海报及部分节日海报设计；公司年会策划及所有线下物料设计。</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 教育经历 -->
+      <section class="about-block">
+        <h2 class="about-block-title editable" data-key="edu_title">教育经历</h2>
+        <div class="edu-grid editable" data-key="edu_list">
+          <div class="edu-card">
+            <span class="edu-date">2012 — 2016</span>
+            <span class="edu-school">长春理工大学</span>
+            <span class="edu-major">本科 · 产品设计</span>
+          </div>
+          <div class="edu-card">
+            <span class="edu-date">2009 — 2012</span>
+            <span class="edu-school">费县实验中学艺林分校</span>
+            <span class="edu-major">高中</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="editable" data-key="footer_line">yangqiang·设计作品集</p>
+      <p class="footer-sub">© <span id="year"></span> 保留所有权利</p>
+    </div>
+  </footer>
+
+  <script src="js/admin_shared.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    var API = window.__adminAPI || "";
+    var TOKEN = null;
+    var editing = false;
+    var toolbar = document.getElementById("editToolbar");
+    var badge = document.getElementById("editBadge");
+    var btnEdit = document.getElementById("btnEdit");
+    var btnSave = document.getElementById("btnSave");
+    var btnCancel = document.getElementById("btnCancel");
+    var editables = Array.prototype.slice.call(document.querySelectorAll(".editable"));
+
+    function getToken() {
+      var m = location.search.match(/[?&]token=([^&]+)/);
+      return m ? decodeURIComponent(m[1]) : localStorage.getItem("adminToken");
+    }
+    function setEditState(on) {
+      editing = on;
+      document.body.classList.toggle("editing", on);
+      btnEdit.style.display = on ? "none" : "";
+      btnSave.style.display = on ? "" : "none";
+      btnCancel.style.display = on ? "" : "none";
+      editables.forEach(function (el) { el.setAttribute("contenteditable", on ? "true" : "false"); });
+      badge.textContent = on ? "管理模式 · 点击文字即可编辑，改完点保存" : "管理模式 · 点击文字即可编辑";
+    }
+
+    // 验证 token
+    var rawToken = getToken();
+    if (rawToken) {
+      fetch(API + "/api/check_token", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({token: rawToken})
+      }).then(function (r) {
+        if (r.ok) return r.json();
+        throw new Error("bad token");
+      }).then(function (res) {
+        if (res.ok) {
+          TOKEN = rawToken;
+          localStorage.setItem("adminToken", TOKEN);
+          toolbar.style.display = "flex";
+        }
+      }).catch(function () {
+        localStorage.removeItem("adminToken");
+      });
+    }
+
+    btnEdit.addEventListener("click", function () { setEditState(true); });
+    btnCancel.addEventListener("click", function () {
+      if (confirm("取消后未保存的修改将丢失，确定取消？")) location.reload();
+    });
+    btnSave.addEventListener("click", function () {
+      if (!TOKEN) { alert("未登录或无权限"); return; }
+      // 生成干净的 HTML 副本
+      var clone = document.documentElement.cloneNode(true);
+      var tb = clone.querySelector(".edit-toolbar");
+      if (tb) tb.remove();
+      var bd = clone.querySelector(".edit-badge");
+      if (bd) bd.remove();
+      clone.querySelectorAll(".editable").forEach(function (el) {
+        el.removeAttribute("contenteditable");
+        el.classList.remove("editable");
+      });
+      var html = clone.outerHTML;
+      fetch(API + "/api/save_about", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Admin-Token": TOKEN
+        },
+        body: JSON.stringify({html: html})
+      }).then(function (r) { return r.json(); }).then(function (res) {
+        if (res.ok) { alert("保存成功"); setEditState(false); location.reload(); }
+        else alert("保存失败：" + (res.error || "未知错误"));
+      }).catch(function (e) { alert("保存失败：" + e.message); });
+    });
+  })();
+  </script>
+</body>
+</html>

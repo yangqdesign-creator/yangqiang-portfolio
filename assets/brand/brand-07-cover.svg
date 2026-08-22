@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbf9f5"/><stop offset="100%" stop-color="#efe9df"/>
+    </linearGradient>
+    <linearGradient id="band" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b0894e"/><stop offset="100%" stop-color="#8c6a35"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="10" fill="url(#band)"/>
+  <g opacity="0.12" transform="translate(520,180)">
+    <rect x="0" y="0" width="180" height="240" rx="8" fill="#fff" stroke="#b0894e" stroke-width="3"/>
+    <path d="M120 0 L180 60 L180 0 Z" fill="#b0894e"/>
+    <line x1="30" y1="110" x2="150" y2="110" stroke="#b0894e" stroke-width="4"/>
+    <line x1="30" y1="140" x2="150" y2="140" stroke="#b0894e" stroke-width="4"/>
+    <line x1="30" y1="170" x2="110" y2="170" stroke="#b0894e" stroke-width="4"/>
+  </g>
+  <text x="400" y="260" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif" font-size="26" font-weight="700" fill="#16181d"><tspan x="400" dy="32">笑宠 品牌视觉形象手册</tspan></text>
+  <rect x="340" y="360" width="120" height="34" rx="17" fill="#b0894e"/>
+  <text x="400" y="384" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif" font-size="14" font-weight="700" fill="#fff">PDF</text>
+  <text x="400" y="430" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif" font-size="14" fill="#6f7378">73.7 MB · 点击查看 / 下载</text>
+  <text x="400" y="560" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,PingFang SC,Microsoft YaHei,sans-serif" font-size="12" fill="#b0894e" letter-spacing="1">BRAND IDENTITY · 07</text>
+</svg>
