@@ -269,46 +269,17 @@ window.PORTFOLIO = {
         "assets/detail/detail-16/detail-16-slice-02.jpg",
         "assets/detail/detail-16/detail-16-slice-03.jpg"
       ]
-    },
-    {
-      "title": "O1CN01ceNpJG1lxqHNLilVs_!!2218632204886-0-cib",
-      "desc": "",
-      "img": "assets/detail/detail-17.jpg",
-      "slices": [
-        "assets/detail/detail-17/detail-17-slice-01.jpg"
-      ],
-      "cover": "assets/covers/detail/detail-17-cover.png"
     }
   ],
   "packaging": [
     {
       "img": "assets/packaging/pkg-01.jpg",
-      "title": "01",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-02.jpg",
-      "title": "02 2",
+      "title": "乳鸽主食罐",
       "desc": ""
     },
     {
       "img": "assets/packaging/pkg-03.jpg",
-      "title": "02",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-04.jpg",
-      "title": "03 2",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-05.jpg",
-      "title": "03",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-06.jpg",
-      "title": "04 2",
+      "title": "爵兔主食罐",
       "desc": ""
     },
     {
@@ -317,10 +288,9 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
-      "img": "assets/packaging/pkg-08.jpg",
-      "title": "06 2",
-      "desc": "",
-      "cover": "assets/covers/packaging/pkg-08-cover.png"
+      "img": "assets/packaging/pkg-05.jpg",
+      "title": "乳鸽主食罐",
+      "desc": ""
     },
     {
       "img": "assets/packaging/pkg-09.jpg",
@@ -328,33 +298,54 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
+      "img": "assets/packaging/pkg-02.jpg",
+      "title": "乳鸽猫粮",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-04.jpg",
+      "title": "乳鸽猫粮",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-06.jpg",
+      "title": "乳鸽猫粮",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-08.jpg",
+      "title": "乳鸽猫粮",
+      "desc": "",
+      "cover": "assets/covers/packaging/pkg-08-cover.png"
+    },
+    {
       "img": "assets/packaging/pkg-10.jpg",
-      "title": "1 2",
+      "title": "猫草猫条",
       "desc": ""
     },
     {
       "img": "assets/packaging/pkg-11.jpg",
-      "title": "1 3",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-12.jpg",
-      "title": "1.8kg.37",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-13.jpg",
-      "title": "1.8kg.44",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-14.jpg",
-      "title": "1",
+      "title": "鸡丝浓汤罐",
       "desc": ""
     },
     {
       "img": "assets/packaging/pkg-15.jpg",
-      "title": "2",
+      "title": "鸡丝浓汤罐",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-12.jpg",
+      "title": "鱼油猫粮",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-13.jpg",
+      "title": "肠胃猫粮",
+      "desc": ""
+    },
+    {
+      "img": "assets/packaging/pkg-14.jpg",
+      "title": "鱼油猫条",
       "desc": ""
     },
     {

@@ -318,7 +318,10 @@
         : '<div class="wm" draggable="true"><div class="ph">'+(meta.section==="brand"?"PDF":"无封面")+'</div></div>';
       card.innerHTML = media
         + '<div class="wt admin-editable-title" title="点击修改名称">'+esc(title)+'</div>'
-        + '<button class="cover-btn" title="上传/更换封面">'+(meta.cover?"更换封面":"上传封面")+'</button>'
+        + '<div class="cover-actions">'
+        +   '<button class="cover-btn upload-cover-btn" title="上传/更换封面">'+(meta.cover?"更换封面":"上传封面")+'</button>'
+        +   (meta.cover ? '<button class="cover-btn delete-cover-btn" title="删除封面">删除封面</button>' : '')
+        + '</div>'
         + '<div class="reorder-bar">'
         +   '<button class="reorder-btn" data-dir="left" title="向前移动">◀ 前移</button>'
         +   '<button class="reorder-btn" data-dir="right" title="向后移动">后移 ▶</button>'
