@@ -89,6 +89,9 @@
     .cover-btn:hover{ background:var(--bg-soft); border-color:var(--accent); }
     .cover-btn.delete-cover-btn{ color:#d9455f; border-color:#f1c6cc; }
     .cover-btn.delete-cover-btn:hover{ background:#fff0f2; border-color:#d9455f; }
+    /* 后台导航特殊样式 */
+    .nav-links a.admin-preview{ color:var(--accent); font-weight:700; }
+    .nav-links a.admin-preview:hover{ color:#7a5a30; }
     .ex-sub{ font-size:14px; font-weight:600; margin:14px 0 10px; color:var(--ink); }
     .ex-sub .count{ font-size:12px; color:var(--muted); font-weight:400; margin-left:6px; }
     /* 登录遮罩 */
@@ -115,20 +118,21 @@
     <div class="nav-inner container">
       <a class="brand" href="index.html">作品集<span>.yang</span></a>
       <nav class="nav-links" id="navLinks">
-        <a href="index.html#home">首页</a>
+        <a href="#sec-top" data-admin-link>上传作品</a>
+        <a href="#sec-brand" data-admin-link>品牌视觉</a>
+        <a href="#sec-detail" data-admin-link>电商详情</a>
+        <a href="#sec-packaging" data-admin-link>包装设计</a>
+        <a href="#sec-poster" data-admin-link>活动海报</a>
+        <a href="#sec-live" data-admin-link>直播间视觉</a>
+        <a href="#sec-video" data-admin-link>电商视频</a>
+        <a href="#sec-exhibition" data-admin-link>展会视觉</a>
         <a href="about.html">关于</a>
-        <a href="index.html#brand">品牌视觉</a>
-        <a href="index.html#detail">电商详情</a>
-        <a href="index.html#packaging">包装设计</a>
-        <a href="index.html#poster">活动海报</a>
-        <a href="index.html#live">直播间视觉</a>
-        <a href="index.html#video">电商视频</a>
-        <a href="index.html#exhibition">展会视觉</a>
+        <a href="index.html" class="admin-preview">前台预览</a>
       </nav>
     </div>
   </header>
 
-  <main class="admin-wrap">
+  <main class="admin-wrap" id="sec-top">
     <h1 class="admin-h">作品管理后台</h1>
     <p class="admin-sub">上传新作品、删除已有作品。修改会直接写入 js/data.js 与 assets/ 目录。</p>
 
@@ -507,6 +511,7 @@
       var arr = DATA[key] || [];
       var wrap = document.createElement("div");
       wrap.className = "admin-section";
+      wrap.id = "sec-"+key;
       wrap.innerHTML = '<h4>'+label+' <span class="count">'+arr.length+' 项</span></h4>';
       var grid = document.createElement("div"); grid.className = "work-grid";
       grid.dataset.section = key;
@@ -537,6 +542,7 @@
       var exs = DATA.exhibition || [];
       var wrap = document.createElement("div");
       wrap.className = "admin-section";
+      wrap.id = "sec-exhibition";
       wrap.innerHTML = '<h4>展会视觉 <span class="count">'+exs.length+' 个展会</span></h4>';
       var box2 = document.createElement("div");
       exs.forEach(function(ex){
@@ -572,6 +578,34 @@
     }
 
     renderList();
+
+    // 后台导航：点击锚点平滑滚动到对应板块，并高亮当前链接
+    function initAdminNav(){
+      var links = document.querySelectorAll('a[data-admin-link]');
+      function setActive(){
+        var hash = location.hash || "#sec-top";
+        links.forEach(function(a){
+          if(a.getAttribute("href") === hash) a.classList.add("active");
+          else a.classList.remove("active");
+        });
+      }
+      links.forEach(function(a){
+        a.addEventListener("click", function(e){
+          var href = a.getAttribute("href");
+          if(!href || href[0] !== "#") return;
+          e.preventDefault();
+          var target = document.querySelector(href);
+          var navH = document.getElementById("nav").offsetHeight || 64;
+          var top = target ? (target.getBoundingClientRect().top + window.pageYOffset - navH - 12) : 0;
+          window.scrollTo({top: top, behavior: "smooth"});
+          history.replaceState(null, "", href);
+          setActive();
+        });
+      });
+      window.addEventListener("hashchange", setActive);
+      setActive();
+    }
+    initAdminNav();
   })();
   </script>
 </body>
