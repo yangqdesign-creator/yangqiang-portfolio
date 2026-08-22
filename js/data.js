@@ -269,6 +269,15 @@ window.PORTFOLIO = {
         "assets/detail/detail-16/detail-16-slice-02.jpg",
         "assets/detail/detail-16/detail-16-slice-03.jpg"
       ]
+    },
+    {
+      "title": "O1CN01ceNpJG1lxqHNLilVs_!!2218632204886-0-cib",
+      "desc": "",
+      "img": "assets/detail/detail-17.jpg",
+      "slices": [
+        "assets/detail/detail-17/detail-17-slice-01.jpg"
+      ],
+      "cover": "assets/covers/detail/detail-17-cover.png"
     }
   ],
   "packaging": [
@@ -310,7 +319,8 @@ window.PORTFOLIO = {
     {
       "img": "assets/packaging/pkg-08.jpg",
       "title": "06 2",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/packaging/pkg-08-cover.png"
     },
     {
       "img": "assets/packaging/pkg-09.jpg",
