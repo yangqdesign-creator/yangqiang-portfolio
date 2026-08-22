@@ -57,6 +57,70 @@ window.PORTFOLIO = {
       ]
     },
     {
+      "img": "assets/detail/detail-10.jpg",
+      "title": "浓汤罐头",
+      "desc": "",
+      "slices": [
+        "assets/detail/detail-10/detail-10-slice-01.jpg",
+        "assets/detail/detail-10/detail-10-slice-02.jpg",
+        "assets/detail/detail-10/detail-10-slice-03.jpg",
+        "assets/detail/detail-10/detail-10-slice-04.jpg",
+        "assets/detail/detail-10/detail-10-slice-05.jpg",
+        "assets/detail/detail-10/detail-10-slice-06.jpg",
+        "assets/detail/detail-10/detail-10-slice-07.jpg",
+        "assets/detail/detail-10/detail-10-slice-08.jpg",
+        "assets/detail/detail-10/detail-10-slice-09.jpg",
+        "assets/detail/detail-10/detail-10-slice-10.jpg"
+      ]
+    },
+    {
+      "img": "assets/detail/detail-07.jpg",
+      "title": "乳鸽猫粮最终版详情长图",
+      "desc": "",
+      "slices": [
+        "assets/detail/detail-07/detail-07-slice-01.jpg",
+        "assets/detail/detail-07/detail-07-slice-02.jpg",
+        "assets/detail/detail-07/detail-07-slice-03.jpg",
+        "assets/detail/detail-07/detail-07-slice-04.jpg",
+        "assets/detail/detail-07/detail-07-slice-05.jpg",
+        "assets/detail/detail-07/detail-07-slice-06.jpg",
+        "assets/detail/detail-07/detail-07-slice-07.jpg",
+        "assets/detail/detail-07/detail-07-slice-08.jpg"
+      ]
+    },
+    {
+      "img": "assets/detail/detail-06.jpg",
+      "title": "乌鸡鲜森猫条-详情页长图",
+      "desc": "",
+      "slices": [
+        "assets/detail/detail-06/detail-06-slice-01.jpg",
+        "assets/detail/detail-06/detail-06-slice-02.jpg",
+        "assets/detail/detail-06/detail-06-slice-03.jpg",
+        "assets/detail/detail-06/detail-06-slice-04.jpg",
+        "assets/detail/detail-06/detail-06-slice-05.jpg",
+        "assets/detail/detail-06/detail-06-slice-06.jpg",
+        "assets/detail/detail-06/detail-06-slice-07.jpg",
+        "assets/detail/detail-06/detail-06-slice-08.jpg",
+        "assets/detail/detail-06/detail-06-slice-09.jpg"
+      ]
+    },
+    {
+      "img": "assets/detail/detail-11.jpg",
+      "title": "爵兔鲜森猫粮详情完整预览",
+      "desc": "",
+      "slices": [
+        "assets/detail/detail-11/detail-11-slice-01.jpg",
+        "assets/detail/detail-11/detail-11-slice-02.jpg",
+        "assets/detail/detail-11/detail-11-slice-03.jpg",
+        "assets/detail/detail-11/detail-11-slice-04.jpg",
+        "assets/detail/detail-11/detail-11-slice-05.jpg",
+        "assets/detail/detail-11/detail-11-slice-06.jpg",
+        "assets/detail/detail-11/detail-11-slice-07.jpg",
+        "assets/detail/detail-11/detail-11-slice-08.jpg",
+        "assets/detail/detail-11/detail-11-slice-09.jpg"
+      ]
+    },
+    {
       "img": "assets/detail/detail-05.jpeg",
       "title": "c78肠胃湿粮",
       "desc": "",
@@ -88,37 +152,6 @@ window.PORTFOLIO = {
         "assets/detail/detail-04/detail-04-slice-07.jpg",
         "assets/detail/detail-04/detail-04-slice-08.jpg",
         "assets/detail/detail-04/detail-04-slice-09.jpg"
-      ]
-    },
-    {
-      "img": "assets/detail/detail-06.jpg",
-      "title": "乌鸡鲜森猫条-详情页长图",
-      "desc": "",
-      "slices": [
-        "assets/detail/detail-06/detail-06-slice-01.jpg",
-        "assets/detail/detail-06/detail-06-slice-02.jpg",
-        "assets/detail/detail-06/detail-06-slice-03.jpg",
-        "assets/detail/detail-06/detail-06-slice-04.jpg",
-        "assets/detail/detail-06/detail-06-slice-05.jpg",
-        "assets/detail/detail-06/detail-06-slice-06.jpg",
-        "assets/detail/detail-06/detail-06-slice-07.jpg",
-        "assets/detail/detail-06/detail-06-slice-08.jpg",
-        "assets/detail/detail-06/detail-06-slice-09.jpg"
-      ]
-    },
-    {
-      "img": "assets/detail/detail-07.jpg",
-      "title": "乳鸽猫粮最终版详情长图",
-      "desc": "",
-      "slices": [
-        "assets/detail/detail-07/detail-07-slice-01.jpg",
-        "assets/detail/detail-07/detail-07-slice-02.jpg",
-        "assets/detail/detail-07/detail-07-slice-03.jpg",
-        "assets/detail/detail-07/detail-07-slice-04.jpg",
-        "assets/detail/detail-07/detail-07-slice-05.jpg",
-        "assets/detail/detail-07/detail-07-slice-06.jpg",
-        "assets/detail/detail-07/detail-07-slice-07.jpg",
-        "assets/detail/detail-07/detail-07-slice-08.jpg"
       ]
     },
     {
@@ -157,39 +190,6 @@ window.PORTFOLIO = {
         "assets/detail/detail-09/detail-09-slice-10.jpg",
         "assets/detail/detail-09/detail-09-slice-11.jpg",
         "assets/detail/detail-09/detail-09-slice-12.jpg"
-      ]
-    },
-    {
-      "img": "assets/detail/detail-10.jpg",
-      "title": "浓汤罐头",
-      "desc": "",
-      "slices": [
-        "assets/detail/detail-10/detail-10-slice-01.jpg",
-        "assets/detail/detail-10/detail-10-slice-02.jpg",
-        "assets/detail/detail-10/detail-10-slice-03.jpg",
-        "assets/detail/detail-10/detail-10-slice-04.jpg",
-        "assets/detail/detail-10/detail-10-slice-05.jpg",
-        "assets/detail/detail-10/detail-10-slice-06.jpg",
-        "assets/detail/detail-10/detail-10-slice-07.jpg",
-        "assets/detail/detail-10/detail-10-slice-08.jpg",
-        "assets/detail/detail-10/detail-10-slice-09.jpg",
-        "assets/detail/detail-10/detail-10-slice-10.jpg"
-      ]
-    },
-    {
-      "img": "assets/detail/detail-11.jpg",
-      "title": "爵兔鲜森猫粮详情完整预览",
-      "desc": "",
-      "slices": [
-        "assets/detail/detail-11/detail-11-slice-01.jpg",
-        "assets/detail/detail-11/detail-11-slice-02.jpg",
-        "assets/detail/detail-11/detail-11-slice-03.jpg",
-        "assets/detail/detail-11/detail-11-slice-04.jpg",
-        "assets/detail/detail-11/detail-11-slice-05.jpg",
-        "assets/detail/detail-11/detail-11-slice-06.jpg",
-        "assets/detail/detail-11/detail-11-slice-07.jpg",
-        "assets/detail/detail-11/detail-11-slice-08.jpg",
-        "assets/detail/detail-11/detail-11-slice-09.jpg"
       ]
     },
     {
@@ -374,6 +374,11 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
+      "img": "assets/packaging/pkg-46.png",
+      "title": "爵兔鲜森渲染.218",
+      "desc": ""
+    },
+    {
       "img": "assets/packaging/pkg-16.png",
       "title": "主食餐盒",
       "desc": ""
@@ -444,6 +449,11 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
+      "img": "assets/packaging/pkg-41.jpg",
+      "title": "异性袋.35",
+      "desc": ""
+    },
+    {
       "img": "assets/packaging/pkg-37.jpg",
       "title": "untitled.1284",
       "desc": ""
@@ -464,11 +474,6 @@ window.PORTFOLIO = {
       "desc": ""
     },
     {
-      "img": "assets/packaging/pkg-41.jpg",
-      "title": "异性袋.35",
-      "desc": ""
-    },
-    {
       "img": "assets/packaging/pkg-42.png",
       "title": "新鸭胸包装0000",
       "desc": ""
@@ -486,11 +491,6 @@ window.PORTFOLIO = {
     {
       "img": "assets/packaging/pkg-45.jpg",
       "title": "渲染.1294",
-      "desc": ""
-    },
-    {
-      "img": "assets/packaging/pkg-46.png",
-      "title": "爵兔鲜森渲染.218",
       "desc": ""
     },
     {
