@@ -36,9 +36,20 @@
     .admin-section h4 .count{ font-size:12px; color:var(--muted); font-weight:400; }
     .work-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; }
     .work-card{ border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; position:relative; }
-    .work-card .wm{ aspect-ratio:4/3; background:var(--bg-soft); }
+    .work-card .wm{ aspect-ratio:4/3; background:var(--bg-soft); position:relative; cursor:pointer; }
     .work-card .wm img{ width:100%; height:100%; object-fit:cover; }
     .work-card .wm .ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px; }
+    /* 后台视频卡片：点击预览 */
+    .work-card[data-section="video"] .wm{ background:#111; }
+    .work-card[data-section="video"] .wm::after{
+      content:"▶"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,.9); font-size:28px; text-shadow:0 2px 8px rgba(0,0,0,.5); pointer-events:none;
+    }
+    .work-card[data-section="video"] .wm .play-hint{
+      position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+      color:rgba(255,255,255,.75); font-size:11px; background:rgba(0,0,0,.45); padding:2px 8px; border-radius:10px;
+      pointer-events:none; white-space:nowrap;
+    }
     .work-card .wt{ padding:8px 10px; font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .work-card .wt.admin-editable-title{
       cursor:text; border-radius:4px; padding:8px 10px; margin:-2px -2px -2px 6px;
@@ -177,9 +188,9 @@
         <input type="file" id="upFile" multiple style="display:none;" />
       </div>
       <div class="form-row">
-        <label>封面（可选，仅单文件上传时生效）
+        <label>封面（可选，单文件上传时生效）
           <input type="file" id="upCover" accept="image/*" />
-          <small>上传视频/PDF/单个图片时可同时指定封面；多文件请到列表中单独设置。</small>
+          <small>上传视频/PDF/单个图片时可同时指定封面；多文件请到列表中单独设置。<br><b style="color:var(--accent)">视频强烈建议上传封面</b>，否则前后台会显示黑色播放占位。</small>
         </label>
       </div>
       <button class="btn-primary" id="upBtn">上传</button>
@@ -192,6 +203,20 @@
       <div id="workList"></div>
     </section>
   </main>
+
+  <!-- 视频预览弹窗 -->
+  <div id="videoPreviewModal" style="display:none; position:fixed; inset:0; background:rgba(16,18,23,.92); z-index:300; align-items:center; justify-content:center; padding:20px;" aria-hidden="true">
+    <div style="position:relative; width:100%; max-width:960px; background:#000; border-radius:12px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.45);">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#1a1a1a; color:#fff;">
+        <span id="videoPreviewTitle" style="font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:80%;"></span>
+        <button id="videoPreviewClose" type="button" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer; line-height:1;">×</button>
+      </div>
+      <div style="position:relative; padding-bottom:56.25%; background:#000;">
+        <video id="videoPreview" controls style="position:absolute; inset:0; width:100%; height:100%; display:block;" playsinline x5-video-player-type="h5" x5-playsinline></video>
+      </div>
+      <p style="margin:0; padding:12px 16px; color:#bbb; font-size:12px; background:#1a1a1a;">提示：后台预览使用原片播放，实际线上会走压缩版本。</p>
+    </div>
+  </div>
 
   <script src="js/data.js"></script>
   <script src="js/admin_shared.js"></script>
@@ -225,6 +250,39 @@
     }
     loginBtn.addEventListener("click", doLogin);
     pwInput.addEventListener("keydown", function(e){ if(e.key==="Enter") doLogin(); });
+
+    /* ---------- 视频预览 ---------- */
+    function showVideoPreview(src, title){
+      var modal = document.getElementById("videoPreviewModal");
+      var video = document.getElementById("videoPreview");
+      var ttl = document.getElementById("videoPreviewTitle");
+      if(!modal || !video) return;
+      video.src = src;
+      video.load();
+      var p = video.play();
+      if(p && p.catch) p.catch(function(){});
+      ttl.textContent = title || "视频预览";
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+    function closeVideoPreview(){
+      var modal = document.getElementById("videoPreviewModal");
+      var video = document.getElementById("videoPreview");
+      if(video){ video.pause(); video.src = ""; }
+      if(modal){ modal.style.display = "none"; modal.setAttribute("aria-hidden","true"); }
+      document.body.style.overflow = "";
+    }
+    document.getElementById("videoPreviewClose").addEventListener("click", closeVideoPreview);
+    document.getElementById("videoPreviewModal").addEventListener("click", function(e){
+      if(e.target === document.getElementById("videoPreviewModal")) closeVideoPreview();
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "Escape"){
+        var modal = document.getElementById("videoPreviewModal");
+        if(modal && modal.style.display === "flex") closeVideoPreview();
+      }
+    });
 
     /* ---------- 上传 ---------- */
     var sectionSel = document.getElementById("upSection");
@@ -335,9 +393,10 @@
       if(meta.exName) card.dataset.exname = meta.exName;
       card.draggable = true;
       var displaySrc = meta.cover || thumb;
+      var isVideo = meta.section === "video";
       var media = displaySrc
-        ? '<div class="wm"><img src="'+esc(displaySrc)+'" alt="" draggable="false"></div>'
-        : '<div class="wm"><div class="ph">'+(meta.section==="brand"?"PDF":"无封面")+'</div></div>';
+        ? '<div class="wm">'+(isVideo?'<span class="play-hint">点击预览</span>':'')+'<img src="'+esc(displaySrc)+'" alt="" draggable="false"></div>'
+        : '<div class="wm">'+(isVideo?'<span class="play-hint">点击预览</span>':'')+'<div class="ph">'+(meta.section==="brand"?"PDF":(isVideo?"视频无封面":"无封面"))+'</div></div>';
       card.innerHTML = '<div class="drag-handle" title="拖动排序">⇅ 拖动排序</div>'
         + media
         + '<div class="wt admin-editable-title" title="点击修改名称">'+esc(title)+'</div>'
@@ -354,6 +413,17 @@
       del.addEventListener("click", delHandler);
       card.appendChild(del);
       bindTitleEdit(card.querySelector(".wt"), meta);
+
+      // 视频点击预览
+      if(meta.section === "video"){
+        var wm = card.querySelector(".wm");
+        if(wm){
+          wm.addEventListener("click", function(e){
+            if(e.target.closest("button, input, .admin-editable-title")) return;
+            showVideoPreview(meta.file, title);
+          });
+        }
+      }
 
       // 封面上传/更换
       card.querySelector(".upload-cover-btn").addEventListener("click", function(e){
