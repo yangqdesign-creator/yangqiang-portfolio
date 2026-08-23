@@ -12,10 +12,12 @@
   <!-- 微信/QQ/百度等 APP 内置浏览器提示：这些浏览器会拦截或劫持外部站点 -->
   <div class="app-browser-hint" id="appBrowserHint" style="display:none;">
     <div class="abh-inner">
-      <span>⚠️ 当前是 APP 内置浏览器，可能会出现拦截、视频浮层、PDF 无法预览等问题。</span>
-      <strong>请点击右上角「⋯」→「在浏览器中打开」</strong>
-      <button type="button" aria-label="关闭提示" id="abhClose">×</button>
+      <span class="abh-icon">⚠️</span>
+      <span class="abh-text">你在微信/APP 内置浏览器中，可能拦截页面或无法播放视频。<b>复制链接后用手机浏览器打开</b>体验最佳。</span>
+      <button type="button" class="abh-copy" id="abhCopy">复制链接</button>
+      <button type="button" class="abh-close" aria-label="关闭提示" id="abhClose">×</button>
     </div>
+    <div class="abh-toast" id="abhToast">已复制，去浏览器粘贴打开 ✓</div>
   </div>
 
   <!-- ============ 导航栏 ============ -->

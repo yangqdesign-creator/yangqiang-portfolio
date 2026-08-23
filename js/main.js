@@ -716,9 +716,41 @@
     if (!(isWeixin || isQQ || isBaidu || isWeibo)) return;
     var hint = document.getElementById("appBrowserHint");
     var close = document.getElementById("abhClose");
+    var copyBtn = document.getElementById("abhCopy");
+    var toast = document.getElementById("abhToast");
     if (!hint) return;
     hint.style.display = "";
     if (close) close.addEventListener("click", function () { hint.style.display = "none"; });
+
+    function showToast(msg) {
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(function () { toast.classList.remove("show"); }, 2400);
+    }
+    function fallbackCopy(url) {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = url; ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast(ok ? "已复制，去浏览器粘贴打开 ✓" : "复制失败，请长按网址手动复制");
+      } catch (e) {
+        showToast("复制失败，请长按网址手动复制");
+      }
+    }
+    if (copyBtn) copyBtn.addEventListener("click", function () {
+      var url = location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(
+          function () { showToast("已复制，去浏览器粘贴打开 ✓"); },
+          function () { fallbackCopy(url); }
+        );
+      } else {
+        fallbackCopy(url);
+      }
+    });
   }
 
   /* 启动 */
