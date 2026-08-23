@@ -628,47 +628,56 @@ window.PORTFOLIO = {
     {
       "src": "assets/video/video-02.mp4",
       "title": "R9湿粮",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/video/video-02-cover.jpg"
     },
     {
       "src": "assets/video/video-03.mp4",
       "title": "益生元猫条",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/video/video-03-cover.jpg"
     },
     {
       "src": "assets/video/video-04.mp4",
       "title": "浓汤鸡丝罐头",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/video/video-04-cover.jpg"
     },
     {
       "src": "assets/video/video-07.mp4",
       "title": "鱼油猫粮",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/video/video-07-cover.jpg"
     },
     {
       "src": "assets/video/video-09.mp4",
       "title": "乳鸽猫粮",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/video/video-09-cover.jpg"
     },
     {
       "src": "assets/video/video-10.mp4",
       "title": "乳鸽猫粮",
-      "desc": ""
+      "desc": "",
+      "cover": "assets/covers/video/video-10-cover.jpg"
     },
     {
       "title": "乳鸽鲜森主食罐",
       "desc": "",
-      "src": "assets/video/video-11.mp4"
+      "src": "assets/video/video-11.mp4",
+      "cover": "assets/covers/video/video-11-cover.jpg"
     },
     {
       "title": "鱼油猫条",
       "desc": "",
-      "src": "assets/video/video-12.mp4"
+      "src": "assets/video/video-12.mp4",
+      "cover": "assets/covers/video/video-12-cover.jpg"
     },
     {
       "title": "猫草猫条",
       "desc": "",
-      "src": "assets/video/video-13.mp4"
+      "src": "assets/video/video-13.mp4",
+      "cover": "assets/covers/video/video-13-cover.jpg"
     }
   ],
   "brand": [

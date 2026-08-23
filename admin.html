@@ -190,7 +190,7 @@
       <div class="form-row">
         <label>封面（可选，单文件上传时生效）
           <input type="file" id="upCover" accept="image/*" />
-          <small>上传视频/PDF/单个图片时可同时指定封面；多文件请到列表中单独设置。<br>封面为可选，不传也能正常显示与播放，仅以浅色占位呈现，不影响任何功能。</small>
+          <small>上传视频/PDF/单个图片时可同时指定封面；多文件请到列表中单独设置。<br>视频不传封面时，系统会自动截取视频第 1 秒作为默认封面；上传封面会覆盖自动截图。</small>
         </label>
       </div>
       <button class="btn-primary" id="upBtn">上传</button>
