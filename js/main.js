@@ -430,7 +430,8 @@
     lbTitle.textContent = item.title || "";
     tx = 0; ty = 0; curScale = fitScale = 1;
     if (item.src) {
-      // 视频模式：不显示图片，不走缩放逻辑
+      // 视频模式：不显示图片，不走缩放逻辑；让灯箱按视频比例自适应高度
+      lb.classList.add("video-mode");
       lbImg.style.display = "none";
       lbImg.src = "";
       if (lbVideo) {
@@ -442,6 +443,7 @@
       if (lbPrev) lbPrev.style.display = "none";
       if (lbNext) lbNext.style.display = "none";
     } else {
+      lb.classList.remove("video-mode");
       lbImg.style.display = "";
       lbImg.src = item.img;
       lbImg.alt = item.title || "";
@@ -462,7 +464,7 @@
     document.body.style.overflow = "hidden";
   }
   function closeLightbox() {
-    lb.classList.remove("open");
+    lb.classList.remove("open", "video-mode");
     lb.setAttribute("aria-hidden", "true");
     lbImg.src = "";
     if (lbVideo) { lbVideo.pause(); lbVideo.src = ""; lbVideo.style.display = "none"; }

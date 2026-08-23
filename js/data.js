@@ -626,63 +626,33 @@ window.PORTFOLIO = {
   ],
   "video": [
     {
-      "src": "assets/video/video-01.mp4",
-      "title": "video-01",
-      "desc": ""
-    },
-    {
       "src": "assets/video/video-02.mp4",
-      "title": "video-02",
+      "title": "R9湿粮",
       "desc": ""
     },
     {
       "src": "assets/video/video-03.mp4",
-      "title": "video-03",
+      "title": "益生元猫条",
       "desc": ""
     },
     {
       "src": "assets/video/video-04.mp4",
-      "title": "video-04",
-      "desc": ""
-    },
-    {
-      "src": "assets/video/video-05.mp4",
-      "title": "video-05",
-      "desc": ""
-    },
-    {
-      "src": "assets/video/video-06.mp4",
-      "title": "video-06",
+      "title": "浓汤鸡丝罐头",
       "desc": ""
     },
     {
       "src": "assets/video/video-07.mp4",
-      "title": "video-07",
-      "desc": ""
-    },
-    {
-      "src": "assets/video/video-08.mp4",
-      "title": "video-08",
+      "title": "鱼油猫粮",
       "desc": ""
     },
     {
       "src": "assets/video/video-09.mp4",
-      "title": "video-09",
+      "title": "乳鸽猫粮",
       "desc": ""
     },
     {
       "src": "assets/video/video-10.mp4",
-      "title": "video-10",
-      "desc": ""
-    },
-    {
-      "src": "assets/video/video-11.mp4",
-      "title": "video-11",
-      "desc": ""
-    },
-    {
-      "src": "assets/video/video-12.mp4",
-      "title": "video-12",
+      "title": "乳鸽猫粮",
       "desc": ""
     }
   ],
