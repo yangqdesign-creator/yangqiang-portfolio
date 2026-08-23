@@ -50,9 +50,7 @@ a{ color:inherit; text-decoration:none; }
 .nav{
   position:sticky; top:0; z-index:50;
   height:var(--nav-h);
-  background:rgba(255,255,255,.82);
-  backdrop-filter:saturate(180%) blur(12px);
-  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  background:rgba(255,255,255,.95);
   border-bottom:1px solid var(--line);
 }
 .nav-inner{
@@ -83,10 +81,13 @@ a{ color:inherit; text-decoration:none; }
 /* 移动端汉堡按钮 */
 .nav-toggle{
   display:none;
+  position:relative; z-index:55;
   flex-direction:column; justify-content:center; gap:5px;
   width:42px; height:42px; border:none; background:none; cursor:pointer;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
 }
 .nav-toggle span{
+  pointer-events:none;
   display:block; width:22px; height:2px; background:var(--ink);
   transition:transform .3s var(--ease), opacity .3s var(--ease);
 }
@@ -630,6 +631,13 @@ a{ color:inherit; text-decoration:none; }
 .pdf-close:hover{ background:rgba(255,255,255,.16); }
 .pdf-stage{ flex:1; min-height:0; padding:16px; }
 .pdf-stage iframe{ width:100%; height:100%; border:0; border-radius:6px; background:#fff; }
+.pdf-tip{
+  position:absolute; inset:16px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center;
+  color:rgba(255,255,255,.82); font-size:14px; line-height:1.7; gap:6px;
+  background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.2); border-radius:8px;
+}
+.pdf-tip p{ margin:0; }
 
 /* ===================== 管理模式（仅 token 验证后显示） ===================== */
 .admin-bar{

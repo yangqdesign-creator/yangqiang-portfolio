@@ -611,11 +611,9 @@
   var pdfOpen = document.getElementById("pdfOpen");
   var pdfViewer = document.getElementById("pdfViewer");
 
-  function isAppOrMobileBrowser() {
+  function isEmbeddedApp() {
     var ua = navigator.userAgent.toLowerCase();
-    var isApp = /micromessenger|baidu|qq|weibo|ucbrowser/i.test(ua);
-    var isMobile = /android|iphone|ipad|ipod/i.test(ua);
-    return isApp || isMobile;
+    return /micromessenger|baidu|bidubrowser|qq\/|mqqbrowser|weibo|ucbrowser|qqbrowser/i.test(ua);
   }
   function absoluteUrl(rel) {
     var a = document.createElement("a");
@@ -629,18 +627,22 @@
     pdfDownload.href = item.pdf;
     pdfDownload.setAttribute("download", basename(item.pdf));
     pdfOpen.href = item.pdf;
-    // Google Docs 在线预览：适合 PC 端稳定打开
-    if (pdfViewer) {
-      pdfViewer.href = "https://docs.google.com/gview?embedded=1&url=" + encodeURIComponent(absoluteUrl(item.pdf));
+    // 国内网络下 Google Docs 不可达，统一隐藏「在线预览」，避免误导
+    if (pdfViewer) pdfViewer.style.display = "none";
+
+    var tip = document.getElementById("pdfTip");
+
+    // 内置浏览器（微信/QQ/百度/微博/UC）：iframe 常被劫持或无法预览，
+    // 改为提示文案 + 手动「下载/新窗口打开」，避免自动 window.open 被拦截成「保存失败」
+    if (isEmbeddedApp()) {
+      if (pdfFrame) { pdfFrame.src = ""; pdfFrame.style.display = "none"; }
+      if (tip) tip.style.display = "flex";
+    } else {
+      // 普通浏览器（含手机 Safari）：iframe 直接预览
+      if (tip) tip.style.display = "none";
+      if (pdfFrame) { pdfFrame.style.display = ""; pdfFrame.src = item.pdf; }
     }
 
-    // APP 内置浏览器 / 移动端直接调用系统 PDF 查看或下载，避免 iframe 被劫持到百度网盘
-    if (isAppOrMobileBrowser()) {
-      window.open(item.pdf, "_blank");
-      return;
-    }
-
-    pdfFrame.src = item.pdf;
     pdfModal.classList.add("open");
     pdfModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -648,7 +650,9 @@
   function closePdfModal() {
     pdfModal.classList.remove("open");
     pdfModal.setAttribute("aria-hidden", "true");
-    pdfFrame.src = "";
+    if (pdfFrame) { pdfFrame.src = ""; pdfFrame.style.display = ""; }
+    var tip = document.getElementById("pdfTip");
+    if (tip) tip.style.display = "none";
     document.body.style.overflow = "";
   }
   document.getElementById("pdfClose").addEventListener("click", closePdfModal);
@@ -706,14 +710,12 @@
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
-  /* 检测是否在 APP 内置浏览器中（微信、QQ、百度、微博等），并给出提示 */
+  /* 检测是否在 APP 内置浏览器中（仅微信、QQ 显示顶部提示，普通手机浏览器/百度等不显示） */
   function detectAppBrowser() {
     var ua = navigator.userAgent.toLowerCase();
     var isWeixin = /micromessenger/i.test(ua);
     var isQQ = /\bqq\//i.test(ua) || /\bmqqbrowser\//i.test(ua);
-    var isBaidu = /baidu/i.test(ua) || /bidubrowser/i.test(ua);
-    var isWeibo = /weibo/i.test(ua);
-    if (!(isWeixin || isQQ || isBaidu || isWeibo)) return;
+    if (!(isWeixin || isQQ)) return;
     var hint = document.getElementById("appBrowserHint");
     var close = document.getElementById("abhClose");
     var copyBtn = document.getElementById("abhCopy");

@@ -24,9 +24,9 @@
   <header class="nav" id="nav">
     <div class="nav-inner container">
       <a class="brand" href="#home">作品集<span>.yang</span></a>
-      <button class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="展开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
       <nav class="nav-links" id="navLinks">
         <a href="#home">首页</a>
         <a href="#brand">品牌视觉</a>
@@ -243,6 +243,10 @@
       </div>
     </div>
     <div class="pdf-stage">
+      <div class="pdf-tip" id="pdfTip" style="display:none;">
+        <p>当前浏览器可能无法直接预览 PDF。</p>
+        <p>点击下方「下载 PDF」保存到手机，再用文件管理器打开；或点「新窗口打开」。</p>
+      </div>
       <iframe id="pdfFrame" src="" title="PDF 预览"></iframe>
     </div>
   </div>
