@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>电商设计作品集</title>
-  <meta name="description" content="电商设计师作品集 · 品牌视觉 / 电商详情 / 包装设计 / 活动海报 / 直播间视觉 / 电商视频 / 展会视觉" />
+  <title>yang的设计作品集 · 杨先生</title>
+  <meta name="description" content="yang的设计作品集 · 品牌视觉 / 电商详情 / 包装设计 / 活动海报 / 直播间视觉 / 电商视频 / 展会视觉" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+  <!-- 微信/QQ/百度等 APP 内置浏览器提示：这些浏览器会拦截或劫持外部站点 -->
+  <div class="app-browser-hint" id="appBrowserHint" style="display:none;">
+    <div class="abh-inner">
+      <span>⚠️ 当前是 APP 内置浏览器，可能会出现拦截、视频浮层、PDF 无法预览等问题。</span>
+      <strong>请点击右上角「⋯」→「在浏览器中打开」</strong>
+      <button type="button" aria-label="关闭提示" id="abhClose">×</button>
+    </div>
+  </div>
 
   <!-- ============ 导航栏 ============ -->
   <header class="nav" id="nav">
@@ -196,6 +205,7 @@
       <div class="lb-stage" id="lbStage">
         <div class="lb-zoom-wrap" id="lbZoomWrap">
           <img id="lbImg" src="" alt="" />
+          <video id="lbVideo" controls playsinline webkit-playsinline="true" x5-playsinline="true" x5-video-player-type="h5-page" x5-video-player-fullscreen="false" preload="metadata" style="display:none;max-width:100%;max-height:100%;"></video>
         </div>
       </div>
       <div class="lb-zoom-controls">
@@ -224,8 +234,9 @@
     <div class="pdf-modal-bar">
       <span class="pdf-name" id="pdfName"></span>
       <div class="pdf-actions">
-        <a class="pdf-btn" id="pdfDownload" download>下载</a>
+        <a class="pdf-btn" id="pdfDownload" download>下载 PDF</a>
         <a class="pdf-btn pdf-btn-ghost" id="pdfOpen" target="_blank" rel="noopener">新窗口打开</a>
+        <a class="pdf-btn pdf-btn-ghost" id="pdfViewer" target="_blank" rel="noopener">在线预览</a>
         <button class="pdf-close" id="pdfClose" aria-label="关闭">×</button>
       </div>
     </div>

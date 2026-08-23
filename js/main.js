@@ -48,7 +48,7 @@
       });
     });
 
-    /* 视频 */
+    /* 视频：卡片只用封面图+播放按钮，避免 APP 内置浏览器劫持浮层 */
     var vbox = document.getElementById("grid-video");
     if (vbox && DATA.video) {
       DATA.video.forEach(function (item) {
@@ -57,14 +57,29 @@
         card.dataset.admSection = "video";
         card.dataset.admFile = item.src;
         card.dataset.admTitle = item.title || "";
-        var posterAttr = item.cover ? ' poster="' + item.cover + '"' : '';
+        var cover = item.cover || "";
+        var posterHtml = cover
+          ? '<img loading="lazy" src="' + cover + '" alt="' + escapeAttr(item.title) + '">'
+          : '<div class="video-poster-fallback"><span class="vpf-icon">▶</span><span class="vpf-title">' + escapeHtml(item.title) + '</span></div>';
         card.innerHTML =
-          '<video controls preload="metadata" playsinline' + posterAttr + ' src="' + item.src +
-          '"></video>' +
+          '<div class="video-poster">' + posterHtml + '<div class="video-play-overlay"><span class="video-play-icon">▶</span></div></div>' +
           '<div class="card-title">' + escapeHtml(item.title) + "</div>";
+        card.addEventListener("click", function () { openVideoPlayer(item); });
         vbox.appendChild(card);
       });
     }
+  }
+
+  /* 视频播放入口：APP/移动端直接调系统播放器，避免被 X5/百度内核劫持 */
+  function openVideoPlayer(item) {
+    var ua = navigator.userAgent.toLowerCase();
+    var isAppBrowser = /micromessenger|baidu|qq|weibo/i.test(ua);
+    var isMobile = /android|iphone|ipad|ipod/i.test(ua);
+    if (isAppBrowser || isMobile) {
+      window.open(item.src, "_blank");
+      return;
+    }
+    openLightbox([item], 0);
   }
 
   function makeImgCard(item, thumb, onClick) {
@@ -378,8 +393,12 @@
   var lb = document.getElementById("lightbox");
   var lbStage = document.getElementById("lbStage");
   var lbImg = document.getElementById("lbImg");
+  var lbVideo = document.getElementById("lbVideo");
   var lbTitle = document.getElementById("lbTitle");
   var zoomWrap = document.getElementById("lbZoomWrap");
+  var lbZoomControls = document.querySelector(".lb-zoom-controls");
+  var lbPrev = document.getElementById("lbPrev");
+  var lbNext = document.getElementById("lbNext");
   var curItems = null, curIdx = 0;
   var natW = 0, natH = 0, fitScale = 1, curScale = 1, tx = 0, ty = 0;
   var returnToSliceItem = null;
@@ -408,12 +427,31 @@
 
   function showCur() {
     var item = curItems[curIdx];
-    lbImg.src = item.img;
-    lbImg.alt = item.title || "";
     lbTitle.textContent = item.title || "";
     tx = 0; ty = 0; curScale = fitScale = 1;
-    if (lbImg.complete && lbImg.naturalWidth) {
-      natW = lbImg.naturalWidth; natH = lbImg.naturalHeight; fit();
+    if (item.src) {
+      // 视频模式：不显示图片，不走缩放逻辑
+      lbImg.style.display = "none";
+      lbImg.src = "";
+      if (lbVideo) {
+        lbVideo.style.display = "";
+        lbVideo.src = item.src;
+        lbVideo.play().catch(function () {});
+      }
+      if (lbZoomControls) lbZoomControls.style.display = "none";
+      if (lbPrev) lbPrev.style.display = "none";
+      if (lbNext) lbNext.style.display = "none";
+    } else {
+      lbImg.style.display = "";
+      lbImg.src = item.img;
+      lbImg.alt = item.title || "";
+      if (lbVideo) { lbVideo.pause(); lbVideo.src = ""; lbVideo.style.display = "none"; }
+      if (lbZoomControls) lbZoomControls.style.display = "";
+      if (lbPrev) lbPrev.style.display = "";
+      if (lbNext) lbNext.style.display = "";
+      if (lbImg.complete && lbImg.naturalWidth) {
+        natW = lbImg.naturalWidth; natH = lbImg.naturalHeight; fit();
+      }
     }
   }
   function openLightbox(items, i, fromSliceItem) {
@@ -427,7 +465,11 @@
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
     lbImg.src = "";
+    if (lbVideo) { lbVideo.pause(); lbVideo.src = ""; lbVideo.style.display = "none"; }
     document.body.style.overflow = "";
+    if (lbZoomControls) lbZoomControls.style.display = "";
+    if (lbPrev) lbPrev.style.display = "";
+    if (lbNext) lbNext.style.display = "";
     if (returnToSliceItem) { var it = returnToSliceItem; returnToSliceItem = null; openSliceModal(it); }
   }
   function step(d) {
@@ -565,13 +607,38 @@
   var pdfName = document.getElementById("pdfName");
   var pdfDownload = document.getElementById("pdfDownload");
   var pdfOpen = document.getElementById("pdfOpen");
+  var pdfViewer = document.getElementById("pdfViewer");
+
+  function isAppOrMobileBrowser() {
+    var ua = navigator.userAgent.toLowerCase();
+    var isApp = /micromessenger|baidu|qq|weibo|ucbrowser/i.test(ua);
+    var isMobile = /android|iphone|ipad|ipod/i.test(ua);
+    return isApp || isMobile;
+  }
+  function absoluteUrl(rel) {
+    var a = document.createElement("a");
+    a.href = rel;
+    return a.href;
+  }
 
   function openPdfModal(item) {
-    pdfFrame.src = item.pdf;
-    pdfName.textContent = item.title;
+    var title = item.title || basename(item.pdf);
+    pdfName.textContent = title;
     pdfDownload.href = item.pdf;
     pdfDownload.setAttribute("download", basename(item.pdf));
     pdfOpen.href = item.pdf;
+    // Google Docs 在线预览：适合 PC 端稳定打开
+    if (pdfViewer) {
+      pdfViewer.href = "https://docs.google.com/gview?embedded=1&url=" + encodeURIComponent(absoluteUrl(item.pdf));
+    }
+
+    // APP 内置浏览器 / 移动端直接调用系统 PDF 查看或下载，避免 iframe 被劫持到百度网盘
+    if (isAppOrMobileBrowser()) {
+      window.open(item.pdf, "_blank");
+      return;
+    }
+
+    pdfFrame.src = item.pdf;
     pdfModal.classList.add("open");
     pdfModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -637,12 +704,28 @@
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
+  /* 检测是否在 APP 内置浏览器中（微信、QQ、百度、微博等），并给出提示 */
+  function detectAppBrowser() {
+    var ua = navigator.userAgent.toLowerCase();
+    var isWeixin = /micromessenger/i.test(ua);
+    var isQQ = /\bqq\//i.test(ua) || /\bmqqbrowser\//i.test(ua);
+    var isBaidu = /baidu/i.test(ua) || /bidubrowser/i.test(ua);
+    var isWeibo = /weibo/i.test(ua);
+    if (!(isWeixin || isQQ || isBaidu || isWeibo)) return;
+    var hint = document.getElementById("appBrowserHint");
+    var close = document.getElementById("abhClose");
+    if (!hint) return;
+    hint.style.display = "";
+    if (close) close.addEventListener("click", function () { hint.style.display = "none"; });
+  }
+
   /* 启动 */
   function init() {
     renderGrids();
     renderBrand();
     renderExhibition();
     checkAdminToken();
+    detectAppBrowser();
   }
   if (document.readyState !== "loading") init();
   else document.addEventListener("DOMContentLoaded", init);
