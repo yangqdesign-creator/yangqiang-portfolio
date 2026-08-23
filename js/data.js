@@ -654,6 +654,21 @@ window.PORTFOLIO = {
       "src": "assets/video/video-10.mp4",
       "title": "乳鸽猫粮",
       "desc": ""
+    },
+    {
+      "title": "乳鸽鲜森主食罐",
+      "desc": "",
+      "src": "assets/video/video-11.mp4"
+    },
+    {
+      "title": "猫草猫条",
+      "desc": "",
+      "src": "assets/video/video-12.mp4"
+    },
+    {
+      "title": "鱼油猫条",
+      "desc": "",
+      "src": "assets/video/video-13.mp4"
     }
   ],
   "brand": [
