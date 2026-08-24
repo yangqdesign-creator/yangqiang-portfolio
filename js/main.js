@@ -30,19 +30,38 @@
   /* 为微信/百度等 APP 内置 WebView 同时绑定 click + touchend，防止事件被吞 */
   function safeAddListener(el, handler) {
     if (!el) return;
-    var touched = false;
-    el.addEventListener("touchstart", function (e) { touched = true; el.dataset.touched = "1"; }, { passive: true });
+    var last = 0;
+    function run(e) {
+      var now = Date.now();
+      if (now - last < 350) return;
+      last = now;
+      handler.call(el, e);
+    }
+    el.addEventListener("click", run);
     el.addEventListener("touchend", function (e) {
-      if (!touched && !el.dataset.touched) return;
-      touched = false; delete el.dataset.touched;
       e.preventDefault();
-      handler.call(el, e);
+      run(e);
     });
-    el.addEventListener("click", function (e) {
-      if (touched || el.dataset.touched) { e.preventDefault(); return; }
-      handler.call(el, e);
-    });
-    el.addEventListener("touchcancel", function () { touched = false; delete el.dataset.touched; });
+  }
+  /* 检测是否为 APP 内置浏览器（微信/QQ/百度/微博/UC/QQ浏览器等） */
+  function isEmbeddedApp() {
+    var ua = navigator.userAgent.toLowerCase();
+    return /micromessenger|baidu|bidubrowser|qq\/|mqqbrowser|weibo|ucbrowser|qqbrowser/i.test(ua);
+  }
+  /* 在 APP 内置浏览器中直接打开资源，避免弹窗被劫持 */
+  function openInAppBrowser(url) {
+    if (/baidu/i.test(navigator.userAgent)) {
+      // 百度 APP 对 _blank 有劫持，尝试用 location 跳转后再返回
+      var a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { document.body.removeChild(a); }, 100);
+    } else {
+      window.open(url, "_blank");
+    }
   }
 
   /* ---------- 渲染：图片网格板块 ---------- */
@@ -54,9 +73,17 @@
         var card;
         if (sec === "detail" || sec === "poster") {
           var thumb = item.cover || (item.img || "").replace(/(\.(?:jpg|jpeg|png))$/i, "-thumb$1");
-          card = makeImgCard(item, thumb, function () { openSliceModal(item); });
+          // APP 内置浏览器：直接打开原长图，避免弹窗被百度劫持
+          card = makeImgCard(item, thumb, function () {
+            if (isEmbeddedApp()) { openInAppBrowser(item.img); }
+            else { openSliceModal(item); }
+          });
         } else {
-          card = makeImgCard(item, item.cover || item.img, function () { openLightbox(DATA[sec], DATA[sec].indexOf(item)); });
+          // APP 内置浏览器：直接打开原图，避免灯箱关闭按钮失效
+          card = makeImgCard(item, item.cover || item.img, function () {
+            if (isEmbeddedApp()) { openInAppBrowser(item.img); }
+            else { openLightbox(DATA[sec], DATA[sec].indexOf(item)); }
+          });
         }
         card.dataset.admSection = sec;
         card.dataset.admFile = item.img;
@@ -89,14 +116,25 @@
 
   /* 视频播放入口：APP/移动端直接调系统播放器，避免被 X5/百度内核劫持 */
   function openVideoPlayer(item) {
-    var ua = navigator.userAgent.toLowerCase();
-    var isAppBrowser = /micromessenger|baidu|qq|weibo/i.test(ua);
-    var isMobile = /android|iphone|ipad|ipod/i.test(ua);
-    if (isAppBrowser || isMobile) {
+    if (isEmbeddedApp()) {
+      // 百度/微信等 APP 会劫持 video 播放为自带播放器，无法提供关闭按钮，先提示用户
+      showAppToast("正在用系统播放器打开视频…");
+      openInAppBrowser(item.src);
+      return;
+    }
+    var isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (isMobile) {
       window.open(item.src, "_blank");
       return;
     }
     openLightbox([item], 0);
+  }
+  function showAppToast(msg) {
+    var t = document.getElementById("appToast");
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(function () { t.classList.remove("show"); }, 2200);
   }
 
   function makeImgCard(item, thumb, onClick) {
@@ -136,11 +174,21 @@
           '</div>' +
         '</div>';
       var cover = card.querySelector(".brand-cover");
-      cover.addEventListener("click", function () { openPdfModal(item); });
-      cover.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPdfModal(item); }
+      cover.addEventListener("click", function () {
+        if (isEmbeddedApp()) { openInAppBrowser(item.pdf); }
+        else { openPdfModal(item); }
       });
-      card.querySelector(".brand-view").addEventListener("click", function () { openPdfModal(item); });
+      cover.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (isEmbeddedApp()) { openInAppBrowser(item.pdf); }
+          else { openPdfModal(item); }
+        }
+      });
+      card.querySelector(".brand-view").addEventListener("click", function () {
+        if (isEmbeddedApp()) { openInAppBrowser(item.pdf); }
+        else { openPdfModal(item); }
+      });
       box.appendChild(card);
     });
   }
@@ -163,7 +211,10 @@
       var grid = document.createElement("div");
       grid.className = "ex-grid";
       group.images.forEach(function (img, i) {
-        var card = makeImgCard(img, img.cover || img.img, function () { openLightbox(group.images, i); });
+        var card = makeImgCard(img, img.cover || img.img, function () {
+          if (isEmbeddedApp()) { openInAppBrowser(img.img); }
+          else { openLightbox(group.images, i); }
+        });
         card.dataset.admSection = "exhibition";
         card.dataset.admFile = img.img;
         card.dataset.admExname = group.name;
@@ -500,10 +551,10 @@
   lbImg.addEventListener("load", function () {
     natW = lbImg.naturalWidth; natH = lbImg.naturalHeight; fit();
   });
-  document.getElementById("lbClose").addEventListener("click", closeLightbox);
-  document.getElementById("lbPrev").addEventListener("click", function () { step(-1); });
-  document.getElementById("lbNext").addEventListener("click", function () { step(1); });
-  lb.addEventListener("click", function (e) { if (e.target === lb) closeLightbox(); });
+  safeAddListener(document.getElementById("lbClose"), closeLightbox);
+  safeAddListener(document.getElementById("lbPrev"), function () { step(-1); });
+  safeAddListener(document.getElementById("lbNext"), function () { step(1); });
+  safeAddListener(lb, function (e) { if (e.target === lb) closeLightbox(); });
   document.addEventListener("keydown", function (e) {
     if (!lb.classList.contains("open")) return;
     if (e.key === "Escape") closeLightbox();
@@ -512,9 +563,9 @@
   });
   window.addEventListener("resize", function () { if (lb.classList.contains("open")) fit(); });
 
-  document.getElementById("lbZoomIn").addEventListener("click", function (e) { e.stopPropagation(); zoomIn(); });
-  document.getElementById("lbZoomOut").addEventListener("click", function (e) { e.stopPropagation(); zoomOut(); });
-  document.getElementById("lbZoomReset").addEventListener("click", function (e) { e.stopPropagation(); resetZoom(); });
+  safeAddListener(document.getElementById("lbZoomIn"), function (e) { e.stopPropagation(); zoomIn(); });
+  safeAddListener(document.getElementById("lbZoomOut"), function (e) { e.stopPropagation(); zoomOut(); });
+  safeAddListener(document.getElementById("lbZoomReset"), function (e) { e.stopPropagation(); resetZoom(); });
 
   /* 滚轮缩放 */
   zoomWrap.addEventListener("wheel", function (e) {
@@ -612,8 +663,8 @@
     sliceGrid.innerHTML = "";
     document.body.style.overflow = "";
   }
-  document.getElementById("sliceClose").addEventListener("click", closeSliceModal);
-  sliceModal.addEventListener("click", function (e) { if (e.target === sliceModal) closeSliceModal(); });
+  safeAddListener(document.getElementById("sliceClose"), closeSliceModal);
+  safeAddListener(sliceModal, function (e) { if (e.target === sliceModal) closeSliceModal(); });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && sliceModal.classList.contains("open")) closeSliceModal();
   });
@@ -681,6 +732,7 @@
         }
       };
       pdfCopyBtn.onclick = copyHandler;
+      safeAddListener(pdfCopyBtn, copyHandler);
     }
   }
   function closePdfModal() {
@@ -808,6 +860,11 @@
       }
     });
   }
+
+  /* 暴露全局关闭函数，供 HTML inline onclick 兜底 */
+  window.closeLightbox = closeLightbox;
+  window.closeSliceModal = closeSliceModal;
+  window.closePdfModal = closePdfModal;
 
   /* 启动 */
   function init() {

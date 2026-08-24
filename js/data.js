@@ -683,14 +683,14 @@ window.PORTFOLIO = {
   "brand": [
     {
       "pdf": "assets/brand/brand-07.pdf",
-      "title": "笑宠 品牌视觉形象手册",
+      "title": "2026笑宠品牌视觉升级",
       "size": "73.7 MB",
       "cover": "",
       "desc": ""
     },
     {
       "pdf": "assets/brand/brand-02.pdf",
-      "title": "品牌识别手册",
+      "title": "2024笑宠品牌升级",
       "size": "2.6 MB",
       "cover": "assets/brand/brand-02-cover.svg",
       "desc": ""
@@ -704,7 +704,7 @@ window.PORTFOLIO = {
     },
     {
       "pdf": "assets/brand/brand-03.pdf",
-      "title": "基础研究院 Logo",
+      "title": "基础研究院",
       "size": "277 KB",
       "cover": "assets/brand/brand-03-cover.svg",
       "desc": ""

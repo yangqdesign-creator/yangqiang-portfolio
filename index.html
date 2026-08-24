@@ -9,6 +9,9 @@
 </head>
 <body>
 
+  <!-- APP 内置浏览器通用提示 toast -->
+  <div class="app-toast" id="appToast"></div>
+
   <!-- 微信/QQ/百度等 APP 内置浏览器提示：这些浏览器会拦截或劫持外部站点 -->
   <div class="app-browser-hint" id="appBrowserHint" style="display:none;">
     <div class="abh-inner">
@@ -29,6 +32,7 @@
     </button>
       <nav class="nav-links" id="navLinks">
         <a href="#home">首页</a>
+        <a href="about.html">关于</a>
         <a href="#brand">品牌视觉</a>
         <a href="#detail">电商详情</a>
         <a href="#packaging">包装设计</a>
@@ -36,7 +40,6 @@
         <a href="#live">直播间视觉</a>
         <a href="#video">电商视频</a>
         <a href="#exhibition">展会视觉</a>
-        <a href="about.html">关于</a>
       </nav>
     </div>
   </header>
@@ -197,8 +200,8 @@
   </footer>
 
   <!-- ============ 图片灯箱（弹窗放大） ============ -->
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
-    <button class="lb-close" id="lbClose" aria-label="关闭">×</button>
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" onclick="if(event.target===this)window.closeLightbox&&window.closeLightbox()">
+    <button class="lb-close" id="lbClose" aria-label="关闭" onclick="window.closeLightbox&&window.closeLightbox()">×</button>
     <button class="lb-nav lb-prev" id="lbPrev" aria-label="上一张">‹</button>
     <div class="lb-title-bar">
       <h4 id="lbTitle"></h4>
@@ -220,10 +223,10 @@
   </div>
 
   <!-- ============ 长图切片网格弹窗（详情 / 海报） ============ -->
-  <div class="slice-modal" id="sliceModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="slice-modal" id="sliceModal" aria-hidden="true" role="dialog" aria-modal="true" onclick="if(event.target===this)window.closeSliceModal&&window.closeSliceModal()">
     <div class="slice-modal-bar">
       <h3 id="sliceTitle"></h3>
-      <button class="slice-close" id="sliceClose" aria-label="关闭">×</button>
+      <button class="slice-close" id="sliceClose" aria-label="关闭" onclick="window.closeSliceModal&&window.closeSliceModal()">×</button>
     </div>
     <div class="slice-modal-body">
       <p class="slice-hint">点击任意一屏可放大查看；支持滚轮缩放、拖拽、双击复位。</p>
@@ -232,14 +235,14 @@
   </div>
 
   <!-- ============ PDF 查看 / 下载 弹窗 ============ -->
-  <div class="pdf-modal" id="pdfModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="pdf-modal" id="pdfModal" aria-hidden="true" role="dialog" aria-modal="true" onclick="if(event.target===this)window.closePdfModal&&window.closePdfModal()">
     <div class="pdf-modal-bar">
       <span class="pdf-name" id="pdfName"></span>
       <div class="pdf-actions">
         <a class="pdf-btn" id="pdfDownload" download>下载 PDF</a>
         <a class="pdf-btn pdf-btn-ghost" id="pdfOpen" target="_blank" rel="noopener">新窗口打开</a>
         <button type="button" class="pdf-btn pdf-btn-ghost" id="pdfCopyBtn" style="display:none;">复制链接</button>
-        <button type="button" class="pdf-close" id="pdfClose" aria-label="关闭">×</button>
+        <button type="button" class="pdf-close" id="pdfClose" aria-label="关闭" onclick="window.closePdfModal&&window.closePdfModal()">×</button>
       </div>
     </div>
     <div class="pdf-stage">

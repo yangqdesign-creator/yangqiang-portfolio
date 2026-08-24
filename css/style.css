@@ -649,6 +649,14 @@ a{ color:inherit; text-decoration:none; }
   opacity:0; pointer-events:none; transition:opacity .25s var(--ease);
 }
 .pdf-copy-toast.show{ opacity:1; }
+.app-toast{
+  position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+  background:rgba(22,24,29,.92); color:#fff; font-size:15px;
+  padding:14px 24px; border-radius:10px; z-index:2003;
+  opacity:0; pointer-events:none; transition:opacity .25s var(--ease);
+  max-width:78vw; text-align:center; line-height:1.5;
+}
+.app-toast.show{ opacity:1; }
 
 /* ===================== 管理模式（仅 token 验证后显示） ===================== */
 .admin-bar{
@@ -725,8 +733,12 @@ body.admin-mode .ex-group .card{ position:relative; }
     max-height:0; overflow:hidden;
     transition:max-height .3s var(--ease);
   }
-  .nav-links.open{ max-height:420px; }
-  .nav-links a{ padding:15px 24px; border-top:1px solid var(--line); }
+  .nav-links.open{
+    max-height:calc(100vh - var(--nav-h) - 24px);
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .nav-links a{ padding:15px 24px; border-top:1px solid var(--line); flex-shrink:0; }
   .nav-links a::after{ display:none; }
   .nav-links a.active{ color:var(--accent); background:var(--bg-soft); }
 
