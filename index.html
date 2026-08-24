@@ -238,18 +238,19 @@
       <div class="pdf-actions">
         <a class="pdf-btn" id="pdfDownload" download>下载 PDF</a>
         <a class="pdf-btn pdf-btn-ghost" id="pdfOpen" target="_blank" rel="noopener">新窗口打开</a>
-        <a class="pdf-btn pdf-btn-ghost" id="pdfViewer" target="_blank" rel="noopener">在线预览</a>
-        <button class="pdf-close" id="pdfClose" aria-label="关闭">×</button>
+        <button type="button" class="pdf-btn pdf-btn-ghost" id="pdfCopyBtn" style="display:none;">复制链接</button>
+        <button type="button" class="pdf-close" id="pdfClose" aria-label="关闭">×</button>
       </div>
     </div>
     <div class="pdf-stage">
       <div class="pdf-tip" id="pdfTip" style="display:none;">
         <p>当前浏览器可能无法直接预览 PDF。</p>
-        <p>点击下方「下载 PDF」保存到手机，再用文件管理器打开；或点「新窗口打开」。</p>
+        <p>点击下方「下载 PDF」保存到手机，再用文件管理器打开；或点「新窗口打开」/「复制链接」到系统浏览器查看。</p>
       </div>
       <iframe id="pdfFrame" src="" title="PDF 预览"></iframe>
     </div>
   </div>
+  <div class="pdf-copy-toast" id="pdfCopyToast"></div>
 
   <div class="admin-badge" id="adminBadge" style="display:none">
     管理模式已开启 · <a href="admin.html">后台管理</a> · <button type="button" id="adminLogout">退出</button>

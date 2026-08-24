@@ -27,6 +27,23 @@
     var n = basename(p);
     return n.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
   }
+  /* 为微信/百度等 APP 内置 WebView 同时绑定 click + touchend，防止事件被吞 */
+  function safeAddListener(el, handler) {
+    if (!el) return;
+    var touched = false;
+    el.addEventListener("touchstart", function (e) { touched = true; el.dataset.touched = "1"; }, { passive: true });
+    el.addEventListener("touchend", function (e) {
+      if (!touched && !el.dataset.touched) return;
+      touched = false; delete el.dataset.touched;
+      e.preventDefault();
+      handler.call(el, e);
+    });
+    el.addEventListener("click", function (e) {
+      if (touched || el.dataset.touched) { e.preventDefault(); return; }
+      handler.call(el, e);
+    });
+    el.addEventListener("touchcancel", function () { touched = false; delete el.dataset.touched; });
+  }
 
   /* ---------- 渲染：图片网格板块 ---------- */
   function renderGrids() {
@@ -609,7 +626,7 @@
   var pdfName = document.getElementById("pdfName");
   var pdfDownload = document.getElementById("pdfDownload");
   var pdfOpen = document.getElementById("pdfOpen");
-  var pdfViewer = document.getElementById("pdfViewer");
+  var pdfCopyBtn = document.getElementById("pdfCopyBtn");
 
   function isEmbeddedApp() {
     var ua = navigator.userAgent.toLowerCase();
@@ -623,40 +640,76 @@
 
   function openPdfModal(item) {
     var title = item.title || basename(item.pdf);
+    var pdfUrl = absoluteUrl(item.pdf);
     pdfName.textContent = title;
     pdfDownload.href = item.pdf;
     pdfDownload.setAttribute("download", basename(item.pdf));
     pdfOpen.href = item.pdf;
-    // 国内网络下 Google Docs 不可达，统一隐藏「在线预览」，避免误导
-    if (pdfViewer) pdfViewer.style.display = "none";
 
     var tip = document.getElementById("pdfTip");
+    var embedded = isEmbeddedApp();
 
     // 内置浏览器（微信/QQ/百度/微博/UC）：iframe 常被劫持或无法预览，
-    // 改为提示文案 + 手动「下载/新窗口打开」，避免自动 window.open 被拦截成「保存失败」
-    if (isEmbeddedApp()) {
+    // 改为提示文案 + 手动「下载/新窗口打开/复制链接」，避免自动 window.open 被拦截成「保存失败」
+    if (embedded) {
       if (pdfFrame) { pdfFrame.src = ""; pdfFrame.style.display = "none"; }
-      if (tip) tip.style.display = "flex";
+      if (tip) {
+        tip.style.display = "flex";
+        tip.setAttribute("data-embedded", "true");
+      }
     } else {
       // 普通浏览器（含手机 Safari）：iframe 直接预览
-      if (tip) tip.style.display = "none";
+      if (tip) { tip.style.display = "none"; tip.removeAttribute("data-embedded"); }
       if (pdfFrame) { pdfFrame.style.display = ""; pdfFrame.src = item.pdf; }
     }
 
     pdfModal.classList.add("open");
     pdfModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+
+    // 复制 PDF 链接按钮
+    if (pdfCopyBtn) {
+      pdfCopyBtn.style.display = embedded ? "" : "none";
+      var copyHandler = function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(pdfUrl).then(
+            function () { showPdfCopyToast("PDF 链接已复制，去浏览器粘贴打开"); },
+            function () { fallbackCopyPdf(pdfUrl); }
+          );
+        } else {
+          fallbackCopyPdf(pdfUrl);
+        }
+      };
+      pdfCopyBtn.onclick = copyHandler;
+    }
   }
   function closePdfModal() {
     pdfModal.classList.remove("open");
     pdfModal.setAttribute("aria-hidden", "true");
     if (pdfFrame) { pdfFrame.src = ""; pdfFrame.style.display = ""; }
     var tip = document.getElementById("pdfTip");
-    if (tip) tip.style.display = "none";
+    if (tip) { tip.style.display = "none"; tip.removeAttribute("data-embedded"); }
     document.body.style.overflow = "";
   }
-  document.getElementById("pdfClose").addEventListener("click", closePdfModal);
-  pdfModal.addEventListener("click", function (e) { if (e.target === pdfModal) closePdfModal(); });
+  function showPdfCopyToast(msg) {
+    var toast = document.getElementById("pdfCopyToast");
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(function () { toast.classList.remove("show"); }, 2400);
+  }
+  function fallbackCopyPdf(url) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = url; ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      showPdfCopyToast(ok ? "PDF 链接已复制，去浏览器粘贴打开 ✓" : "复制失败，请长按链接手动复制");
+    } catch (e) { showPdfCopyToast("复制失败，请长按链接手动复制"); }
+  }
+  safeAddListener(document.getElementById("pdfClose"), closePdfModal);
+  safeAddListener(pdfModal, function (e) { if (e.target === pdfModal) closePdfModal(); });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && pdfModal.classList.contains("open")) closePdfModal();
   });
@@ -667,11 +720,12 @@
   var toggle = document.getElementById("navToggle");
   var links = document.getElementById("navLinks");
   if (toggle && links) {
-    toggle.addEventListener("click", function () {
+    function toggleMenu() {
       var open = links.classList.toggle("open");
       toggle.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+    }
+    safeAddListener(toggle, toggleMenu);
     links.addEventListener("click", function (e) {
       if (e.target.tagName === "A") {
         links.classList.remove("open");
