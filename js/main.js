@@ -50,17 +50,24 @@
   }
   /* 在 APP 内置浏览器中直接打开资源，避免弹窗被劫持 */
   function openInAppBrowser(url) {
-    if (/baidu/i.test(navigator.userAgent)) {
-      // 百度 APP 对 _blank 有劫持，尝试用 location 跳转后再返回
-      var a = document.createElement("a");
-      a.href = url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(function () { document.body.removeChild(a); }, 100);
-    } else {
-      window.open(url, "_blank");
+    var ua = navigator.userAgent.toLowerCase();
+    var win;
+    try { win = window.open(url, "_blank"); } catch (e) {}
+    // 若被拦截（win 为 null/undefined），回退到当前页跳转
+    if (!win) {
+      if (/baidu|micromessenger|qq/i.test(ua)) {
+        // 百度/微信/QQ：创建临时 a 标签并触发点击，有时能绕过拦截
+        var a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () { if (a.parentNode) a.parentNode.removeChild(a); }, 200);
+      } else {
+        window.location.href = url;
+      }
     }
   }
 
@@ -678,16 +685,6 @@
   var pdfDownload = document.getElementById("pdfDownload");
   var pdfOpen = document.getElementById("pdfOpen");
   var pdfCopyBtn = document.getElementById("pdfCopyBtn");
-
-  function isEmbeddedApp() {
-    var ua = navigator.userAgent.toLowerCase();
-    return /micromessenger|baidu|bidubrowser|qq\/|mqqbrowser|weibo|ucbrowser|qqbrowser/i.test(ua);
-  }
-  function absoluteUrl(rel) {
-    var a = document.createElement("a");
-    a.href = rel;
-    return a.href;
-  }
 
   function openPdfModal(item) {
     var title = item.title || basename(item.pdf);
