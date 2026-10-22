@@ -742,49 +742,42 @@ window.PORTFOLIO = {
       "pdf": "assets/brand/brand-07.pdf",
       "title": "2026笑宠品牌视觉升级",
       "size": "73.7 MB",
-      "cover": "",
+      "cover": "assets/covers/brand/brand-07-cover.png",
       "desc": ""
     },
     {
       "pdf": "assets/brand/brand-02.pdf",
       "title": "2024笑宠品牌升级",
       "size": "2.6 MB",
-      "cover": "assets/brand/brand-02-cover.svg",
+      "cover": "assets/covers/brand/brand-02-cover.png",
       "desc": ""
     },
     {
       "pdf": "assets/brand/brand-01.pdf",
       "title": "BOB&LUSH 品牌介绍",
       "size": "13.7 MB",
-      "cover": "assets/brand/brand-01-cover.svg",
+      "cover": "assets/covers/brand/brand-01-cover.png",
       "desc": ""
     },
     {
       "pdf": "assets/brand/brand-03.pdf",
       "title": "基础研究院",
       "size": "277 KB",
-      "cover": "assets/brand/brand-03-cover.svg",
+      "cover": "assets/covers/brand/brand-03-cover.png",
       "desc": ""
     },
     {
       "pdf": "assets/brand/brand-04.pdf",
       "title": "尾巴日记 品牌介绍",
       "size": "1.9 MB",
-      "cover": "assets/brand/brand-04-cover.svg",
+      "cover": "assets/covers/brand/brand-04-cover.png",
       "desc": ""
     },
     {
       "pdf": "assets/brand/brand-05.pdf",
       "title": "笑宠 品牌包装",
       "size": "5.9 MB",
-      "cover": "assets/brand/brand-05-cover.svg",
-      "desc": ""
-    },
-    {
-      "pdf": "assets/brand/brand-06.pdf",
-      "title": "笑宠 品牌手册",
-      "size": "6.9 MB",
-      "cover": "assets/brand/brand-06-cover.svg",
+      "cover": "assets/covers/brand/brand-05-cover.png",
       "desc": ""
     }
   ],
