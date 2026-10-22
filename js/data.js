@@ -328,6 +328,7 @@ window.PORTFOLIO = {
       ]
     }
   ],
+  "mainvisual": [],
   "packaging": [
     {
       "img": "assets/packaging/pkg-01.jpg",

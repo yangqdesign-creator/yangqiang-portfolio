@@ -132,6 +132,7 @@
         <a href="#sec-top" data-admin-link>上传作品</a>
         <a href="#sec-brand" data-admin-link>品牌视觉</a>
         <a href="#sec-detail" data-admin-link>电商详情</a>
+        <a href="#sec-mainvisual" data-admin-link>电商主图</a>
         <a href="#sec-packaging" data-admin-link>包装设计</a>
         <a href="#sec-poster" data-admin-link>活动海报</a>
         <a href="#sec-live" data-admin-link>直播间视觉</a>
@@ -154,6 +155,7 @@
         <label>板块
           <select id="upSection">
             <option value="detail">电商详情（长图，自动切片）</option>
+            <option value="mainvisual">电商主图</option>
             <option value="packaging">包装设计</option>
             <option value="poster">活动海报（长图，自动切片）</option>
             <option value="live">直播间视觉</option>
@@ -373,6 +375,7 @@
       box.innerHTML = "";
       var sections = [
         {key:"detail", label:"电商详情"},
+        {key:"mainvisual", label:"电商主图"},
         {key:"packaging", label:"包装设计"},
         {key:"poster", label:"活动海报"},
         {key:"live", label:"直播间视觉"},

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>yang的设计作品集 · 杨先生</title>
-  <meta name="description" content="yang的设计作品集 · 品牌视觉 / 电商详情 / 包装设计 / 活动海报 / 直播间视觉 / 电商视频 / 展会视觉" />
+  <meta name="description" content="yang的设计作品集 · 品牌视觉 / 包装设计 / 电商详情 / 电商主图 / 活动海报 / 直播间视觉 / 电商视频 / 展会视觉" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -34,9 +34,15 @@
         <a href="#home">首页</a>
         <a href="about.html">关于我</a>
         <a href="#brand">品牌视觉</a>
-        <a href="#detail">电商详情</a>
         <a href="#packaging">包装设计</a>
-        <a href="#poster">活动海报</a>
+        <div class="nav-drop">
+          <a href="#detail" class="drop-parent">电商视觉 <span class="drop-caret">▾</span></a>
+          <div class="drop-menu">
+            <a href="#detail">电商详情</a>
+            <a href="#mainvisual">电商主图</a>
+            <a href="#poster">活动海报</a>
+          </div>
+        </div>
         <a href="#live">直播间视觉</a>
         <a href="#video">电商视频</a>
         <a href="#exhibition">展会视觉</a>
@@ -87,7 +93,7 @@
       <p class="kicker">DESIGN PORTFOLIO</p>
       <h1 class="hero-title">yang的设计作品集</h1>
       <p class="hero-subtitle">品牌设计 · 包装设计 · 电商设计 · 平面设计</p>
-      <a class="hero-cta" href="#detail">查看作品 ↓</a>
+      <a class="hero-cta" href="#brand">查看作品 ↓</a>
     </div>
   </section>
 
@@ -106,25 +112,11 @@
       </div>
     </section>
 
-    <!-- ============ 电商详情 ============ -->
-    <section class="section section-alt" id="detail">
+    <!-- ============ 包装设计 ============ -->
+    <section class="section section-alt" id="packaging">
       <div class="container">
         <div class="section-head">
           <span class="sec-index">02</span>
-          <div>
-            <h2>电商详情</h2>
-            <p class="sec-en">Product Detail Pages</p>
-          </div>
-        </div>
-        <div class="grid" id="grid-detail"></div>
-      </div>
-    </section>
-
-    <!-- ============ 包装设计 ============ -->
-    <section class="section" id="packaging">
-      <div class="container">
-        <div class="section-head">
-          <span class="sec-index">03</span>
           <div>
             <h2>包装设计</h2>
             <p class="sec-en">Packaging &amp; Rendering</p>
@@ -134,11 +126,39 @@
       </div>
     </section>
 
-    <!-- ============ 活动海报 ============ -->
-    <section class="section section-alt" id="poster">
+    <!-- ============ 电商详情 ============ -->
+    <section class="section" id="detail">
+      <div class="container">
+        <div class="section-head">
+          <span class="sec-index">03</span>
+          <div>
+            <h2>电商详情</h2>
+            <p class="sec-en">Product Detail Pages</p>
+          </div>
+        </div>
+        <div class="grid" id="grid-detail"></div>
+      </div>
+    </section>
+
+    <!-- ============ 电商主图 ============ -->
+    <section class="section section-alt" id="mainvisual">
       <div class="container">
         <div class="section-head">
           <span class="sec-index">04</span>
+          <div>
+            <h2>电商主图</h2>
+            <p class="sec-en">E-commerce Main Images</p>
+          </div>
+        </div>
+        <div class="grid" id="grid-mainvisual"></div>
+      </div>
+    </section>
+
+    <!-- ============ 活动海报 ============ -->
+    <section class="section" id="poster">
+      <div class="container">
+        <div class="section-head">
+          <span class="sec-index">05</span>
           <div>
             <h2>活动海报</h2>
             <p class="sec-en">Campaign Posters</p>
@@ -149,10 +169,10 @@
     </section>
 
     <!-- ============ 直播间视觉 ============ -->
-    <section class="section" id="live">
+    <section class="section section-alt" id="live">
       <div class="container">
         <div class="section-head">
-          <span class="sec-index">05</span>
+          <span class="sec-index">06</span>
           <div>
             <h2>直播间视觉</h2>
             <p class="sec-en">Live Room Visuals</p>
@@ -163,10 +183,10 @@
     </section>
 
     <!-- ============ 电商视频 ============ -->
-    <section class="section section-alt" id="video">
+    <section class="section" id="video">
       <div class="container">
         <div class="section-head">
-          <span class="sec-index">06</span>
+          <span class="sec-index">07</span>
           <div>
             <h2>电商视频</h2>
             <p class="sec-en">E-commerce Videos</p>
@@ -177,10 +197,10 @@
     </section>
 
     <!-- ============ 展会视觉 ============ -->
-    <section class="section" id="exhibition">
+    <section class="section section-alt" id="exhibition">
       <div class="container">
         <div class="section-head">
-          <span class="sec-index">07</span>
+          <span class="sec-index">08</span>
           <div>
             <h2>展会视觉</h2>
             <p class="sec-en">Exhibition Booths</p>

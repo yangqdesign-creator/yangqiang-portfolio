@@ -12,7 +12,7 @@
   "use strict";
 
   var DATA = window.PORTFOLIO || {};
-  var IMG_SECTIONS = ["detail", "packaging", "poster", "live"];
+  var IMG_SECTIONS = ["detail", "packaging", "poster", "live", "mainvisual"];
   var ADMIN_TOKEN = null;
 
   /* ---------- 工具 ---------- */
