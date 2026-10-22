@@ -328,7 +328,173 @@ window.PORTFOLIO = {
       ]
     }
   ],
-  "mainvisual": [],
+  "mainvisual": [
+    {
+      "title": "主图01",
+      "desc": "",
+      "img": "assets/mainvisual/main-01.jpg"
+    },
+    {
+      "title": "主图03",
+      "desc": "",
+      "img": "assets/mainvisual/main-02.jpg"
+    },
+    {
+      "title": "主图04",
+      "desc": "",
+      "img": "assets/mainvisual/main-03.jpg"
+    },
+    {
+      "title": "sku-01 拷贝 2",
+      "desc": "",
+      "img": "assets/mainvisual/main-04.jpg"
+    },
+    {
+      "title": "sku-01 拷贝",
+      "desc": "",
+      "img": "assets/mainvisual/main-05.jpg"
+    },
+    {
+      "title": "sku-01",
+      "desc": "",
+      "img": "assets/mainvisual/main-06.jpg"
+    },
+    {
+      "title": "sku-02 拷贝 2",
+      "desc": "",
+      "img": "assets/mainvisual/main-07.jpg"
+    },
+    {
+      "title": "sku-02 拷贝",
+      "desc": "",
+      "img": "assets/mainvisual/main-08.jpg"
+    },
+    {
+      "title": "sku-02",
+      "desc": "",
+      "img": "assets/mainvisual/main-09.jpg"
+    },
+    {
+      "title": "模版1",
+      "desc": "",
+      "img": "assets/mainvisual/main-10.jpg"
+    },
+    {
+      "title": "模版2",
+      "desc": "",
+      "img": "assets/mainvisual/main-11.jpg"
+    },
+    {
+      "title": "模版3",
+      "desc": "",
+      "img": "assets/mainvisual/main-12.jpg"
+    },
+    {
+      "title": "模版4",
+      "desc": "",
+      "img": "assets/mainvisual/main-13.jpg"
+    },
+    {
+      "title": "模版5",
+      "desc": "",
+      "img": "assets/mainvisual/main-14.jpg"
+    },
+    {
+      "title": "模版6",
+      "desc": "",
+      "img": "assets/mainvisual/main-15.jpg"
+    },
+    {
+      "title": "模版02",
+      "desc": "",
+      "img": "assets/mainvisual/main-17.jpg"
+    },
+    {
+      "title": "模版03",
+      "desc": "",
+      "img": "assets/mainvisual/main-18.jpg"
+    },
+    {
+      "title": "模版04",
+      "desc": "",
+      "img": "assets/mainvisual/main-19.jpg"
+    },
+    {
+      "title": "模版05",
+      "desc": "",
+      "img": "assets/mainvisual/main-20.jpg"
+    },
+    {
+      "title": "模版01",
+      "desc": "",
+      "img": "assets/mainvisual/main-24.jpg"
+    },
+    {
+      "title": "模版04",
+      "desc": "",
+      "img": "assets/mainvisual/main-27.jpg"
+    },
+    {
+      "title": "模版05",
+      "desc": "",
+      "img": "assets/mainvisual/main-28.jpg"
+    },
+    {
+      "title": "模版07",
+      "desc": "",
+      "img": "assets/mainvisual/main-30.jpg"
+    },
+    {
+      "title": "猫草猫条-1",
+      "desc": "",
+      "img": "assets/mainvisual/main-31.jpg"
+    },
+    {
+      "title": "猫草猫条PRO-2-1",
+      "desc": "",
+      "img": "assets/mainvisual/main-32.jpg"
+    },
+    {
+      "title": "乳鸽餐盒-1",
+      "desc": "",
+      "img": "assets/mainvisual/main-33.jpg"
+    },
+    {
+      "title": "乳鸽猫粮2 拷贝",
+      "desc": "",
+      "img": "assets/mainvisual/main-34.jpg"
+    },
+    {
+      "title": "乳鸽湿粮",
+      "desc": "",
+      "img": "assets/mainvisual/main-35.jpg"
+    },
+    {
+      "title": "乳鸽主食罐-2 拷贝",
+      "desc": "",
+      "img": "assets/mainvisual/main-36.jpg"
+    },
+    {
+      "title": "鱼油猫条 拷贝 2",
+      "desc": "",
+      "img": "assets/mainvisual/main-37.jpg"
+    },
+    {
+      "title": "鱼油猫条PRO-1 拷贝-1",
+      "desc": "",
+      "img": "assets/mainvisual/main-38.jpg"
+    },
+    {
+      "title": "b78鱼油猫粮-2",
+      "desc": "",
+      "img": "assets/mainvisual/main-39.jpg"
+    },
+    {
+      "title": "C78湿粮3",
+      "desc": "",
+      "img": "assets/mainvisual/main-40.jpg"
+    }
+  ],
   "packaging": [
     {
       "img": "assets/packaging/pkg-01.jpg",
@@ -560,6 +726,76 @@ window.PORTFOLIO = {
       "img": "assets/packaging/pkg-48.png",
       "title": "鲜煮鸡肝0000 2",
       "desc": ""
+    },
+    {
+      "title": "波波蓝希牧场",
+      "desc": "",
+      "img": "assets/packaging/pkg-49.jpg"
+    },
+    {
+      "title": "波波蓝希森语",
+      "desc": "",
+      "img": "assets/packaging/pkg-50.jpg"
+    },
+    {
+      "title": "波波蓝希天养",
+      "desc": "",
+      "img": "assets/packaging/pkg-51.jpg"
+    },
+    {
+      "title": "尾巴日记-小满",
+      "desc": "",
+      "img": "assets/packaging/pkg-52.jpg"
+    },
+    {
+      "title": "尾巴日记-星羽",
+      "desc": "",
+      "img": "assets/packaging/pkg-53.jpg"
+    },
+    {
+      "title": "尾巴日记-悦养",
+      "desc": "",
+      "img": "assets/packaging/pkg-54.jpg"
+    },
+    {
+      "title": "尾巴日记初见",
+      "desc": "",
+      "img": "assets/packaging/pkg-55.jpg"
+    },
+    {
+      "title": "晨露",
+      "desc": "",
+      "img": "assets/packaging/pkg-56.jpg"
+    },
+    {
+      "title": "风禾",
+      "desc": "",
+      "img": "assets/packaging/pkg-57.jpg"
+    },
+    {
+      "title": "轻乳",
+      "desc": "",
+      "img": "assets/packaging/pkg-58.jpg"
+    },
+    {
+      "title": "望月",
+      "desc": "",
+      "img": "assets/packaging/pkg-59.jpg"
+    },
+    {
+      "title": "f8",
+      "desc": "",
+      "img": "assets/packaging/pkg-60.jpg"
+    },
+    {
+      "title": "h8",
+      "desc": "",
+      "img": "assets/packaging/pkg-61.jpg"
+    },
+    {
+      "title": "x8",
+      "desc": "",
+      "img": "assets/packaging/pkg-62.jpg"
     }
   ],
   "poster": [
