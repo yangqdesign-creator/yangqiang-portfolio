@@ -23,6 +23,12 @@
   }
   function escapeAttr(s) { return escapeHtml(s); }
   function basename(p) { return String(p).split("/").pop(); }
+  /* 把相对路径解析为绝对 URL（用于复制链接等功能）；缺失会导致 PDF 弹窗 ReferenceError */
+  function absoluteUrl(p) {
+    var a = document.createElement("a");
+    a.href = p;
+    return a.href;
+  }
   function fileNameTitle(p) {
     var n = basename(p);
     return n.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
