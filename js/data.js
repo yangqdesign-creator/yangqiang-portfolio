@@ -269,6 +269,63 @@ window.PORTFOLIO = {
         "assets/detail/detail-16/detail-16-slice-02.jpg",
         "assets/detail/detail-16/detail-16-slice-03.jpg"
       ]
+    },
+    {
+      "title": "波波蓝希牧场C10",
+      "desc": "",
+      "img": "assets/detail/detail-17.jpg",
+      "slices": [
+        "assets/detail/detail-17/detail-17-slice-01.jpg",
+        "assets/detail/detail-17/detail-17-slice-02.jpg",
+        "assets/detail/detail-17/detail-17-slice-03.jpg",
+        "assets/detail/detail-17/detail-17-slice-04.jpg",
+        "assets/detail/detail-17/detail-17-slice-05.jpg",
+        "assets/detail/detail-17/detail-17-slice-06.jpg",
+        "assets/detail/detail-17/detail-17-slice-07.jpg",
+        "assets/detail/detail-17/detail-17-slice-08.jpg",
+        "assets/detail/detail-17/detail-17-slice-09.jpg",
+        "assets/detail/detail-17/detail-17-slice-10.jpg",
+        "assets/detail/detail-17/detail-17-slice-11.jpg",
+        "assets/detail/detail-17/detail-17-slice-12.jpg",
+        "assets/detail/detail-17/detail-17-slice-13.jpg"
+      ]
+    },
+    {
+      "title": "尾巴日记悦养P10",
+      "desc": "",
+      "img": "assets/detail/detail-18.jpg",
+      "slices": [
+        "assets/detail/detail-18/detail-18-slice-01.jpg",
+        "assets/detail/detail-18/detail-18-slice-02.jpg",
+        "assets/detail/detail-18/detail-18-slice-03.jpg",
+        "assets/detail/detail-18/detail-18-slice-04.jpg",
+        "assets/detail/detail-18/detail-18-slice-05.jpg",
+        "assets/detail/detail-18/detail-18-slice-06.jpg",
+        "assets/detail/detail-18/detail-18-slice-07.jpg",
+        "assets/detail/detail-18/detail-18-slice-08.jpg",
+        "assets/detail/detail-18/detail-18-slice-09.jpg",
+        "assets/detail/detail-18/detail-18-slice-10.jpg",
+        "assets/detail/detail-18/detail-18-slice-11.jpg",
+        "assets/detail/detail-18/detail-18-slice-12.jpg"
+      ]
+    },
+    {
+      "title": "笑宠云栖",
+      "desc": "",
+      "img": "assets/detail/detail-19.jpg",
+      "slices": [
+        "assets/detail/detail-19/detail-19-slice-01.jpg",
+        "assets/detail/detail-19/detail-19-slice-02.jpg",
+        "assets/detail/detail-19/detail-19-slice-03.jpg",
+        "assets/detail/detail-19/detail-19-slice-04.jpg",
+        "assets/detail/detail-19/detail-19-slice-05.jpg",
+        "assets/detail/detail-19/detail-19-slice-06.jpg",
+        "assets/detail/detail-19/detail-19-slice-07.jpg",
+        "assets/detail/detail-19/detail-19-slice-08.jpg",
+        "assets/detail/detail-19/detail-19-slice-09.jpg",
+        "assets/detail/detail-19/detail-19-slice-10.jpg",
+        "assets/detail/detail-19/detail-19-slice-11.jpg"
+      ]
     }
   ],
   "packaging": [
