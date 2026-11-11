@@ -326,6 +326,21 @@ window.PORTFOLIO = {
         "assets/detail/detail-19/detail-19-slice-10.jpg",
         "assets/detail/detail-19/detail-19-slice-11.jpg"
       ]
+    },
+    {
+      "title": "波波蓝希",
+      "desc": "",
+      "img": "assets/detail/detail-20.jpg",
+      "slices": [
+        "assets/detail/detail-20/detail-20-slice-01.jpg",
+        "assets/detail/detail-20/detail-20-slice-02.jpg",
+        "assets/detail/detail-20/detail-20-slice-03.jpg",
+        "assets/detail/detail-20/detail-20-slice-04.jpg",
+        "assets/detail/detail-20/detail-20-slice-05.jpg",
+        "assets/detail/detail-20/detail-20-slice-06.jpg",
+        "assets/detail/detail-20/detail-20-slice-07.jpg",
+        "assets/detail/detail-20/detail-20-slice-08.jpg"
+      ]
     }
   ],
   "mainvisual": [
@@ -811,6 +826,31 @@ window.PORTFOLIO = {
       "title": "兔肉2.4kg四分之三（无褶皱）",
       "desc": "",
       "img": "assets/packaging/pkg-65.png"
+    },
+    {
+      "title": "笑宠奇境",
+      "desc": "",
+      "img": "assets/packaging/pkg-66.png"
+    },
+    {
+      "title": "笑宠山岚",
+      "desc": "",
+      "img": "assets/packaging/pkg-67.jpg"
+    },
+    {
+      "title": "笑宠锦羽",
+      "desc": "",
+      "img": "assets/packaging/pkg-68.jpg"
+    },
+    {
+      "title": "笑宠奇境",
+      "desc": "",
+      "img": "assets/packaging/pkg-69.jpg"
+    },
+    {
+      "title": "笑宠四款猫粮",
+      "desc": "",
+      "img": "assets/packaging/pkg-70.jpg"
     }
   ],
   "poster": [
@@ -987,6 +1027,24 @@ window.PORTFOLIO = {
       "desc": "",
       "src": "assets/video/video-13.mp4",
       "cover": "assets/covers/video/video-13-cover.jpg"
+    },
+    {
+      "title": "渠道款猫条主图视频",
+      "desc": "",
+      "src": "assets/video/video-14.mp4",
+      "cover": "assets/covers/video/video-14-cover.jpg"
+    },
+    {
+      "title": "f8猫条主图视频",
+      "desc": "",
+      "src": "assets/video/video-15.mp4",
+      "cover": "assets/covers/video/video-15-cover.jpg"
+    },
+    {
+      "title": "f8美毛猫条",
+      "desc": "",
+      "src": "assets/video/video-16.mp4",
+      "cover": "assets/covers/video/video-16-cover.jpg"
     }
   ],
   "brand": [
@@ -1158,6 +1216,53 @@ window.PORTFOLIO = {
         {
           "img": "assets/exhibition/tabohui/ex-06.jpg",
           "title": "它博会 06",
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "name": "广交会",
+      "en": "",
+      "images": [
+        {
+          "img": "assets/exhibition/广交会/广交会-01.jpg",
+          "title": "1",
+          "desc": ""
+        },
+        {
+          "img": "assets/exhibition/广交会/广交会-02.jpg",
+          "title": "2",
+          "desc": ""
+        },
+        {
+          "img": "assets/exhibition/广交会/广交会-03.jpg",
+          "title": "3",
+          "desc": ""
+        }
+      ]
+    },
+    {
+      "name": "沙特展",
+      "en": "",
+      "images": [
+        {
+          "img": "assets/exhibition/沙特展/沙特展-01.jpg",
+          "title": "1",
+          "desc": ""
+        },
+        {
+          "img": "assets/exhibition/沙特展/沙特展-02.jpg",
+          "title": "2",
+          "desc": ""
+        },
+        {
+          "img": "assets/exhibition/沙特展/沙特展-03.jpg",
+          "title": "3",
+          "desc": ""
+        },
+        {
+          "img": "assets/exhibition/沙特展/沙特展-04.jpg",
+          "title": "4",
           "desc": ""
         }
       ]
