@@ -796,6 +796,21 @@ window.PORTFOLIO = {
       "title": "x8",
       "desc": "",
       "img": "assets/packaging/pkg-62.jpg"
+    },
+    {
+      "title": "鸡肉2.4kg四分之三（无褶皱）",
+      "desc": "",
+      "img": "assets/packaging/pkg-63.png"
+    },
+    {
+      "title": "三文鱼2.4kg四分之三（无褶皱）",
+      "desc": "",
+      "img": "assets/packaging/pkg-64.png"
+    },
+    {
+      "title": "兔肉2.4kg四分之三（无褶皱）",
+      "desc": "",
+      "img": "assets/packaging/pkg-65.png"
     }
   ],
   "poster": [
